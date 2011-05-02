@@ -1,0 +1,200 @@
+unit UnPedagogical;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Menus, StdCtrls, ExtCtrls, Grids, ComCtrls, JvExStdCtrls,
+  JvEdit, JvValidateEdit;
+
+type
+  TFmPedagogical = class(TForm)
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    ScrollBox1: TScrollBox;
+    ScrollBox2: TScrollBox;
+    Image1: TImage;
+    Label2: TLabel;
+    MainMenu1: TMainMenu;
+    Visualisation1: TMenuItem;
+    LoadNetwork1: TMenuItem;
+    PonderedView1: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    TrackBar1: TTrackBar;
+    ComboBox1: TComboBox;
+    Label1: TLabel;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    JvValidateEdit1: TJvValidateEdit;
+    JvValidateEdit2: TJvValidateEdit;
+    JvValidateEdit3: TJvValidateEdit;
+    Label5: TLabel;
+    JvValidateEdit4: TJvValidateEdit;
+    Label6: TLabel;
+    ListBox1: TListBox;
+    procedure PonderedView1Click(Sender: TObject);
+    procedure LoadNetwork1Click(Sender: TObject);
+    procedure TrackBar1Change(Sender: TObject);
+  private
+    { Private declarations }
+    FData : array of array of double;
+//    FOtherRep : array of THypothesis;
+    FInputCount : integer;
+    FOutputCount : integer;
+    Procedure UpdateVisualisation;
+    procedure GetDoubleArray (min, max : double; index : integer; size : integer; out ar : array of double);
+  public
+    { Public declarations }
+  end;
+
+var
+  FmPedagogical: TFmPedagogical;
+
+implementation
+
+uses UnNetRep, UnNetBehaviour, math, unFunctions;
+
+{$R *.dfm}
+
+procedure TFmPedagogical.PonderedView1Click(Sender: TObject);
+  begin
+//  FmHypothesis.Execute(FotherRep[ComboBox1.itemindex]);
+  end;
+
+procedure TFmPedagogical.LoadNetwork1Click(Sender: TObject);
+  var
+    XNetRep : TNetworkRep;
+    XNetBeh : TRafaAnn;
+    i, j : integer;
+    min, max : double;
+    XSize : integer;
+    XInputs, XOutputs : array of double;
+
+  begin
+  if OpenDialog1.Execute then
+     begin
+//     For i := 0 to FOutputCount - 1 do
+//       FOtherRep[i].Free;
+
+     XNetRep := TNetworkRep.Create(nil, nil);
+     XNetRep.LoadFromXML(OpenDialog1.FileName);
+     XNetBeh := TRafaANN.Create;
+     XNetBeh.AddRealFunction(logsig, logsig_linha);
+     XNetBeh.AddRealFunction(tansig, tansig_linha);
+     XNetBeh.AddRealFunction(BiLogsig, BiLogsig_linha);
+     XNetBeh.AddRealFunction(Threshold, Threshold_Linha);
+     XNetBeh.AddRealFunction(BiThreshold, BiThreshold_Linha);
+     XNetBeh.AddRealFunction(Linear, Linear_Linha);
+     XNetBeh.AddRealFunction(CrazyA, CrazyA_Linha);
+     XNetBeh.LoadDescription(XNetRep);
+     XNetBeh.ResetNetwork;
+
+     FInputCount  := XNetRep.GetInputCount;
+     FOutputCount := XNetRep.GetOutputCount;
+     if FInputCount <= 30 then
+        begin
+        XSize := round(intpower(2, FInputCount));
+        SetLength(XInputs, FInputCount);
+        SetLength(XOutputs, FOutputCount);
+        SetLength(FData, XSize , FOutputCount);
+        //XNetBeh.SetMode(NMTest);
+        ComboBox1.Items.Clear;
+        for i := 0 to FOutputCount - 1 do
+          COmboBox1.Items.Add('Output ' + inttostr(i));
+        if FOutputCount > 0 then COmboBox1.ItemIndex := 0;
+        min :=  double(JvValidateEdit1.Value);
+        max :=  double(JvValidateEdit2.Value);
+        for i := 0 to XSize - 1 do
+          begin
+          GetDoubleArray(min, max, i, FInputCount, XInputs);
+          XNetBeh.ApplyInputArray(XInputs, FInputCount);
+          XNetBeh.GetOutputArray(XOutputs, FOutputCount);
+          for j := 0 to FOutputCount - 1 do
+            FData[i, j] := XOutputs[j];
+          end;
+        end
+     else
+        MessageDlg('Unnacceptable number of inputs', MtError, [MbOK], 0);
+     XNetBeh.Free;
+     XNetRep.Free;
+
+//     SetLength(FOtherRep, FOutputCount);
+{     for i := 0 to FOutputCount - 1 do
+       begin
+       FOtherRep[i] := THypothesis.create(FInputCount, 'Output ' + inttostr(i));
+       for j := 0 to XSize - 1 do
+         FOtherRep[i].Data[j] := FData[j, i] >= ((double(JvValidateEdit3.value) + double(JvValidateEdit4.value)) / 2);
+       end;}
+
+     UpdateVisualisation;
+     end;
+  end;
+
+procedure TFmPedagogical.UpdateVisualisation;
+  var
+     i, j, count, SubcountX, SubCountY, cl : integer;
+     XtmpData : double;
+     x, y, TotX, TotY : integer;
+  begin
+  if (FInputCount > 30) then
+     MessageDlg('Network with unaccepted number of layers',mtError, [MbOK], 0)
+  else
+     if (FInputCount > 0) and (FOutputCount > 0) then
+        begin
+        count := round(Intpower(2, FInputCount));
+        TotX := FInputCount div 2;
+        SubCountX := round(Intpower(2, TotX));
+        TotY := FInputCount - totX;
+        SubCountY := round(Intpower(2, TotY));
+        x := image1.Width div SubCountX;
+        y := image1.Height div SubCountY;
+        for i := 0 to SubCountX - 1 do
+          for j := 0 to SubCountY - 1 do
+            begin
+            XTmpData := FData[(j * SubCountX) + i, ComboBox1.ItemIndex];
+            XTmpData := XTmpData - double(JvValidateEdit3.Value);
+            XTmpData := XTmpData / (double(JvValidateEdit4.Value) - double(JvValidateEdit3.Value));
+            XTmpData := (XTmpData * 2) - 1;
+            if TrackBar1.Position = 0 then
+               cl := 255 * sign(XTmpData)
+            else
+               cl := round(255 * (XTmpData / TrackBar1.Position));
+            if cl > 255 then cl := 255;
+            if cl < -255 then cl := -255;
+            image1.Canvas.Brush.Color := $00FFFFFF;
+            if cl >= 0 then
+               image1.Canvas.Brush.Color := image1.Canvas.Brush.Color - (cl + (256 * cl))
+            else
+               image1.Canvas.Brush.Color := image1.Canvas.Brush.Color - ((256 * 256 * (-cl)) + (256 * (-cl)));
+            image1.Canvas.Rectangle(x * i, y * j, x * (i + 1), y * (j + 1));
+            end;
+        end;
+  end;
+
+procedure TFmPedagogical.TrackBar1Change(Sender: TObject);
+  begin
+  UpdateVisualisation;
+  end;
+
+procedure TFmPedagogical.GetDoubleArray (min, max : double; index : integer; size : integer;
+                                         out ar : array of double);
+  var
+    i, j : integer;
+    CurInd : integer;
+  begin
+  CurInd := index;
+  for i := 0 to size - 1 do
+    begin
+    if CurInd >= IntPower(2, (size - 1) - i) then
+       ar[i] := max
+    else
+       ar[i] := min;
+    j := round(IntPower(2, (size - 1) - i));
+    CurInd := CurInd mod j;
+    end;
+  end;
+
+end.

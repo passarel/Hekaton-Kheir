@@ -1,0 +1,568 @@
+{
+  @abstract(Unit containing the routines to execute the scanning
+    (lexical analysis) of a logic program)
+  @author(Rafa "Passarel" Borges <passarel@gmail.com)
+  @created(Pelotas, September, 2003)
+  @lastmod(Porto Alegre, June 25, 2006)
+}
+unit UnLogScan;
+
+interface
+
+uses Grids, Classes, UnLogScanAut;
+
+{------------------------------------------------------------------------------}
+
+//Record that keeps the information about each token on the program
+type TToken = record
+  //Internal reference on the code (0 for symbol, 1 for operator and 2 for keyword)
+  RefInt : word;
+  //Initial position of the token on the source code
+  Indice : Int64;
+  //Index of the token on its respective table
+  IndTab : word;
+  end;
+
+{------------------------------------------------------------------------------}
+
+{
+@abstract(Class that encapsulating a scanner for logic programs)
+
+The class @name describes structures and routines to execute a lexical analysis
+of the source code, based on a finite automata to recognize each token. The
+instance of this class presents two predefined lists: of operators and keywords,
+and generate a table of tokens and a table of symbols, that are identifiers not
+in the list of keywords.
+}
+type TScanner = class
+  private
+    //List of keywords of the language
+    FKeyWords   : TStringList;
+
+    //List of identifiers not recognized as keywords
+    FVariaveis  : TStringList;
+
+    //List of operators of the language
+    FOperadores : TStringList;
+
+    //Array of tokens tha represents the output of the scanning process
+    FSaida      : array of TToken;
+
+    //Number of tokens on the output
+    FTokens     : word;
+
+    //Last position read on the source file
+    FIndiceAtual: Int64;
+
+    //???
+    FIndiceIns  : Int64;
+
+    //Automata to be used to recognize the tokens
+    FAutomata   : TAutomata;
+
+    //Clean the output (tokens) array)
+    procedure LimpaSaida;
+
+    //Insert a token on the array
+    //@param(Refer: Position of the token on the repective table (list))
+    //@param(Tabela: Table(list) that the token belongs)
+    //@param(Indice: Position of the token on the source file)
+    procedure InsereToken(Refer, Tabela : word; Indice : Int64);
+
+    //Process a character read on the source code
+    //@param(caracter: Character to be processed)
+    //@return(true if the automata acchieved a valid state)
+    function  TrataCaracter(caracter : char) : boolean;
+
+    //Process a indentifier
+    //@param(s: string to be inserted on the correct table)
+    //@param(c: Character to be processed again by the automata)
+    //@return(true if the string could be processed, and the automata executed)
+    function  TrataIdentificador(s : string; c : char) : boolean;
+
+    //Process a Operator
+    //@param(s: string to be inserted on the correct table)
+    //@param(c: Character to be processed again by the automata)
+    //@return(true if the string could be processed, and the automata executed)
+    function  TrataOperador     (s : string; c : char) : boolean;
+
+    //Process a Comment
+    //@param(s: string to be inserted on the correct table(useless))
+    //@param(c: Character to be processed again by the automata)
+    //@return(true if the string could be processed, and the automata executed)
+    function  TrataComentario   (s : string; c : char) : boolean;
+
+    //Process a Separator
+    //@param(s: string to be inserted on the correct table(useless))
+    //@param(c: Character to be processed again by the automata)
+    //@return(true if the string could be processed, and the automata executed)
+    function  TrataSeparador    (s : string; c : char) : boolean;
+
+    //Process a Line Break
+    //@param(s: string to be inserted on the correct table(useless))
+    //@param(c: Character to be processed again by the automata)
+    //@return(true if the string could be processed, and the automata executed)
+    function  TrataLinha        (s : string; c : char) : boolean;
+
+  public
+    //Constructor of the class
+    constructor Create;
+
+    //Constructor of the class
+    //@param(KeyWords: List of keywords of the language)
+    //@param(Oper: List of operators of the language)
+    //@param(Automata: Automata to be used)
+    constructor CreatePar(KeyWords : TStrings; Oper : TStrings; Automata : TAutomata);
+
+    //Load a configuration of the scanner
+    //@param(KeyWords: List of keywords of the language)
+    //@param(Oper: List of operators of the language)
+    //@param(Automata: Automata to be used)
+    procedure Carrega(KeyWords : TStrings; Oper : TStrings; Automata : TAutomata);
+
+    //Execute the scanning of a file
+    //@param(NomeArq: Name of file to be scanned)
+    //@return(true if the scanning was suceeded)
+    function  Executa(NomeArq : string) : boolean;
+
+    //Load the configuration of the scanner from a file
+    //@param(FileName : Name of the file with the configuration)
+    //@param(AutName : Name of the file with the description of automata)
+    //@return(The name of the automata's file used)
+    function LoadFromFile(FileName : string; AutNome : string) : string;
+
+    //Save the configuration of the scanner to a file
+    //@param(FileName : Name of the file with the configuration)
+    //@param(AutName : Name of the file with the description of automata)    //@param
+    procedure SaveToFile(FileName : string; AutNome : string);
+
+    //Save the output of the scanner on a file
+    //@param(Filename: Name of the file to be saved)
+    procedure CreateOutPut(FileName : string);
+
+    //Add a keyword
+    //@param(s: Keyword to be added)
+    procedure AdicionaKeyWord (s : string );
+
+    //Delete a keyword
+    //@param(i: index of the keyword to be deleted)
+    procedure RemoveKeyWord   (i : integer);
+
+    //Add an operator
+    //@param(s: Operator to be added)
+    procedure AdicionaOperador(s : string);
+
+    //Delete a keyword
+    //@param(i: index of the operator to be deleted)
+    procedure RemoveOperador  (i : integer);
+
+    //Gets the list of keywords
+    //@param(s: StringList to be filled with the keywords)
+    procedure RetornaKeyWords  (s : TStrings);
+
+    //Gets the list of operators
+    //@param(s: StringList to be filled with the operators)
+    procedure RetornaOperadores(s : TStrings);
+
+    //Gets a list with the identifiers that are not keywords
+    //@param(s: list to be filled with the symbols)
+    procedure RetornaSimbolos  (s : TStrings);
+
+    //Gets a visual representation of the output of the scanning process
+    //@param(g: StringGrid to be filled with the output data)
+    procedure RetornaSaida (g : TStringGrid);
+
+    //Get an specific token from the output of the scanning process
+    //@param(i: index of the token)
+    //@return(Token on the output)
+    function  GetSaida(i : integer) : TToken;
+
+    //Gets the count of tokens on the output
+    function  GetCount : word;
+
+  end;
+
+{------------------------------------------------------------------------------}
+
+implementation
+
+uses SysUtils;
+
+{------------------------------------------------------------------------------}
+
+{ TScanner }
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.AdicionaKeyWord(s: string);
+  begin
+  FKeyWords.Add(s);
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.AdicionaOperador(s: string);
+  begin
+  FOperadores.Add(s);
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.Carrega(KeyWords, Oper: TStrings; Automata: TAutomata);
+  var i : integer;
+  begin
+  if FKeyWords = nil then
+     FKeyWords := TStringList.Create;
+  FKeyWords.Clear;
+  for i := 0 to KeyWords.Count - 1 do
+    FKeyWords.Add(KeyWords.Strings[i]);
+
+  if FOperadores = nil then
+     FOperadores := TStringList.Create;
+  FOperadores.Clear;
+  for i := 0 to Oper.Count - 1 do
+    FOperadores.Add(Oper.Strings[i]);
+
+  FAutomata := Automata;
+
+  if FVariaveis = nil then
+     FVariaveis := TStringList.Create;
+  FVariaveis.Clear;
+  LimpaSaida;
+
+ end;
+
+{------------------------------------------------------------------------------}
+
+constructor TScanner.CreatePar(KeyWords, Oper: TStrings; Automata: TAutomata);
+  begin
+  inherited Create;
+  Carrega(KeyWords, Oper, Automata);
+  end;
+
+{------------------------------------------------------------------------------}
+
+constructor TScanner.Create;
+  begin
+  inherited Create;
+  FKeyWords := TStringList.Create;
+  FOperadores := TStringList.Create;
+  FAutomata := TAutomata.Create(0);
+  FVariaveis := TStringList.Create;
+  LimpaSaida;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.CreateOutPut(FileName: string);
+  var
+    F : Text;
+    i : word;
+  begin
+  assign(f, FileName);
+  rewrite(F);
+  for i := 0 to FTokens - 1 do
+    writeln(F, FSaida[i].RefInt, ' ', FSaida[i].Indice, ' ', FSaida[i].IndTab);
+  writeln(F);
+  for i := 0 to FVariaveis.Count - 1 do
+    writeln(F, FVariaveis.strings[i]);
+  close(F);
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.Executa(NomeArq: string): boolean;
+  var
+    final : boolean;
+    arq : text;
+    c : char;
+  begin
+  final := false;
+  try
+    assign(arq, NomeArq);
+    reset(arq);
+    LimpaSaida;
+    FVariaveis.Clear;
+    final := true;
+    FIndiceAtual := 0;
+    while not eof(arq) do
+      begin
+      read(arq, c);
+      final := TrataCaracter(c);
+      FIndiceAtual := FIndiceAtual + 1;
+      end;
+    final := TrataCaracter(' ');
+  finally
+    result := final;
+    close(arq);
+    end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.GetCount: word;
+  begin
+  result := FTokens;
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.GetSaida(i: integer): TToken;
+  begin
+  if (i >= 0) and (i < FTokens) then
+     result := FSaida[i]
+  else
+     begin
+     result.RefInt := 0;
+     result.Indice := -1;
+     result.IndTab := 0;
+     end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.InsereToken(Refer, Tabela: word; Indice: Int64);
+  begin
+  FTokens := FTokens + 1;
+  SetLength(FSaida, FTokens);
+  FSaida[FTokens - 1].RefInt := Refer;
+  FSaida[FTokens - 1].Indice := Indice;
+  FSaida[FTokens - 1].IndTab := Tabela;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.LimpaSaida;
+  begin
+  FTokens := 0;
+  end;
+
+
+{------------------------------------------------------------------------------}
+
+function TScanner.LoadFromFile(FileName, AutNome: string): string;
+  var F : Text;
+      s, AN : string;
+      i, n : integer;
+      s1, s2 : TStringList;
+  begin
+  assign(F, FileName);
+  reset(F);
+  readln(F,AN);
+  if AutNome <> '' then
+     AN := AutNome;
+  FAutomata.LoadFromTextFile(AN);
+  s1 := TStringList.Create;
+  s2 := TStringList.Create;
+  readln(F,s);
+  n := strtoint(s);
+  for i := 0 to n - 1 do
+    begin
+    readln(F,s);
+    s1.Add(s);
+    end;
+  readln(F, s);
+  n := strtoint(s);
+  for i := 0 to n - 1 do
+    begin
+    readln(F,s);
+    s2.Add(s);
+    end;
+  close(F);
+  carrega(s1, s2, FAutomata);
+  s1.Free;
+  s2.Free;
+
+  result := AN;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.RemoveKeyWord(i: integer);
+  begin
+  FKeyWords.Delete(i);
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.RemoveOperador(i: integer);
+  begin
+  FOperadores.Delete(i);
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.RetornaKeyWords(s: TStrings);
+  var i : integer;
+  begin
+  if s <> nil then
+     begin
+     s.Clear;
+     for i := 0 to FKeyWords.Count - 1 do
+       s.Add(FKeyWords.Strings[i]);
+     end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.RetornaOperadores(s: TStrings);
+  var i : integer;
+  begin
+  if s <> nil then
+     begin
+     s.Clear;
+     for i := 0 to FOperadores.Count - 1 do
+       s.Add(FOperadores.Strings[i]);
+     end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.RetornaSaida(g: TStringGrid);
+  var i : integer;
+  begin
+  g.RowCount := FTokens + 1;
+  if g.RowCount > 1 then
+     g.FixedRows := 1;
+
+  g.Cells[0, 0] := 'Ref. Int.';
+  g.Cells[1, 0] := 'Ind. Cód.';
+  g.Cells[2, 0] := 'Ind. Tab.';
+
+  for i := 1 to FTokens do
+    begin
+    g.Cells[0, i] := intToStr(FSaida[i - 1].RefInt);
+    g.Cells[1, i] := intToStr(FSaida[i - 1].Indice);
+    g.Cells[2, i] := intToStr(FSaida[i - 1].IndTab);
+    end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.RetornaSimbolos(s: TStrings);
+  var i : integer;
+  begin
+  if s <> nil then
+     begin
+     s.Clear;
+     for i := 0 to FVariaveis.Count - 1 do
+       s.Add(FVariaveis.Strings[i]);
+     end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+procedure TScanner.SaveToFile(FileName, AutNome: string);
+  var F : Text;
+      i : longint;
+  begin
+  assign(F, FileName);
+  rewrite(F);
+  writeln(F, AutNome);
+  writeln(F, FKeyWords.Count);
+  for i := 0 to FKeyWords.Count - 1 do
+    writeLn(F, FKeyWords.strings[i]);
+  writeln(F, FOperadores.Count);
+  for i := 0 to FOperadores.Count - 1 do
+    writeLn(F, FOperadores.strings[i]);
+  close(F);
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.TrataCaracter(caracter: char): boolean;
+  var r : integer;
+  begin
+  r := FAutomata.ExecutaChar(caracter);
+  if r >= 0 then
+     case TTipoEstados(r) of
+       TENaoFinal      : result := false;
+       TEIdentificador : result := TrataIdentificador(FAutomata.GetStr, caracter);
+       TEOperador      : result := TrataOperador(FAutomata.GetStr, caracter);
+       TEComentario    : result := TrataComentario(FAutomata.GetStr, caracter);
+       TESeparador     : result := TrataSeparador(FAutomata.GetStr, caracter);
+       TESeparadorLi   : result := TrataLinha(FAutomata.GetStr, caracter);
+       TEOutro         : result := false;
+     else result := false;
+       end
+  else
+     result := false;
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.TrataComentario(s: string; c: char): boolean;
+  begin
+  FIndiceIns := FIndiceAtual + 1;
+  FAutomata.ResetVal;
+  result := TrataCaracter(c);
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.TrataIdentificador(s: string; c: char): boolean;
+  var i : integer;
+  begin
+  i := FKeyWords.IndexOf(s);
+  if i >= 0 then
+     insereToken(1, i, FIndiceIns)
+  else
+     begin
+     i := FVariaveis.IndexOf(s);
+     if i >= 0 then
+        insereToken(0, i, FIndiceIns)
+     else
+        begin
+        FVariaveis.Add(s);
+        insereToken(0, FVariaveis.Count - 1, FIndiceIns)
+        end;
+     end;
+  FIndiceIns := FIndiceAtual;
+  FAutomata.ResetVal;
+  result := TrataCaracter(c);
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.TrataLinha(s: string; c: char): boolean;
+  begin
+  insereToken(3, 0, FIndiceIns);
+  FIndiceIns := FIndiceAtual;
+  FAutomata.ResetVal;
+  result := TrataCaracter(c);
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.TrataOperador(s: string; c: char): boolean;
+  var i : integer;
+  begin
+  i := FOperadores.IndexOf(s);
+  if i = -1 then
+     result := false
+  else
+     begin
+     insereToken(2, i, FIndiceIns);
+     result := true;
+     end;
+  FIndiceIns := FIndiceAtual;
+  if result then
+     begin
+     FAutomata.ResetVal;
+     result := TrataCaracter(c);
+     end;
+  end;
+
+{------------------------------------------------------------------------------}
+
+function TScanner.TrataSeparador(s: string; c: char): boolean;
+  begin
+  FIndiceIns := FIndiceAtual + 1;
+  FAutomata.ResetVal;
+  result := TrataCaracter(c);
+  end;
+
+
+{------------------------------------------------------------------------------}
+
+end.

@@ -1,0 +1,164 @@
+[Diagram:]
+OffsetX=0
+OffsetY=3289
+Visibility=0
+ShowAssoc=0
+
+[Box:  - ::UnAbout]
+X=430
+Y=380
+
+[Box:  - ::UnChVis]
+X=635
+Y=380
+
+[Box:  - ::UnDialChConf]
+X=20
+Y=40
+
+[Box:  - ::UnDialColumn]
+X=1455
+Y=380
+
+[Box:  - ::UnDialCross]
+X=3133
+Y=40
+
+[Box:  - ::UnDialDinPhil]
+X=2810
+Y=40
+
+[Box:  - ::UnDialDoubleFloat]
+X=20
+Y=380
+
+[Box:  - ::UnDialEdit]
+X=2048
+Y=40
+
+[Box:  - ::UnDialFile]
+X=840
+Y=380
+
+[Box:  - ::UnDialMerge]
+X=4572
+Y=40
+
+[Box:  - ::UnDialNode]
+X=3463
+Y=40
+
+[Box:  - ::UnDialTrEvol]
+X=225
+Y=380
+
+[Box:  - ::UnDialWizards]
+X=3895
+Y=125
+
+[Box:  - ::UnFmMain]
+X=3893
+Y=40
+
+[Box:  - ::UnFmMuddyChildren]
+X=2488
+Y=40
+
+[Box:  - ::UnFunct]
+X=1296
+Y=40
+
+[Box:  - ::UnFunctions]
+X=1505
+Y=125
+
+[Box:  - ::UnLogForm]
+X=681
+Y=40
+
+[Box:  - ::UnLogGen]
+X=870
+Y=125
+
+[Box:  - ::UnLogPars]
+X=331
+Y=40
+
+[Box:  - ::UnLogScan]
+X=225
+Y=125
+
+[Box:  - ::UnLogScanAut]
+X=20
+Y=210
+
+[Box:  - ::UnLogSing]
+X=1105
+Y=210
+
+[Box:  - ::UnLogStruct]
+X=1046
+Y=295
+
+[Box:  - ::UnMCDiningTable]
+X=2810
+Y=125
+
+[Box:  - ::UnMCPhilosopher]
+X=2835
+Y=210
+
+[Box:  - ::UnMMDialTransition]
+X=886
+Y=40
+
+[Box:  - ::UnMMDialVar]
+X=1091
+Y=40
+
+[Box:  - ::UnMMStructure]
+X=1080
+Y=125
+
+[Box:  - ::UnMMVisualNew]
+X=1501
+Y=40
+
+[Box:  - ::UnNetBehaviour]
+X=2355
+Y=295
+
+[Box:  - ::UnNetRep]
+X=2216
+Y=380
+
+[Box:  - ::UnNetVisual]
+X=4100
+Y=125
+
+[Box:  - ::UnPedagogical]
+X=1250
+Y=380
+
+[Box:  - ::UnRafaAux2007]
+X=1530
+Y=210
+
+[Box:  - ::UnRafaVisual]
+X=3040
+Y=210
+
+[Box:  - ::UnResults]
+X=20
+Y=125
+
+[Box:  - ::UnWeightVis]
+X=1045
+Y=380
+
+[Diagram: ]
+OffsetX=0
+OffsetY=3354
+Visibility=0
+ShowAssoc=1
+

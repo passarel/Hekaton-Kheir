@@ -1,0 +1,367 @@
+unit UnMetalevel0;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Gauges, Spin, Grids, UnNetRep, UnNetBehaviour;
+
+type
+  TForm1 = class(TForm)
+    StringGrid1: TStringGrid;
+    Button1: TButton;
+    Button2: TButton;
+    StringGrid2: TStringGrid;
+    Button3: TButton;
+    Button4: TButton;
+    SpinEdit1: TSpinEdit;
+    Button6: TButton;
+    Gauge1: TGauge;
+    Gauge2: TGauge;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    SpinEdit2: TSpinEdit;
+    Button5: TButton;
+    Label4: TLabel;
+    Label5: TLabel;
+    OpenDialog1: TOpenDialog;
+    CheckBox1: TCheckBox;
+    SaveDialog1: TSaveDialog;
+    Edit1: TEdit;
+    SpinEdit3: TSpinEdit;
+    Label6: TLabel;
+
+    procedure Button1Click(Sender: TObject);
+    procedure CheckBox1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+  private
+    FNetRep : TNetworkRep;
+    FNetwork : TRafaANN;
+
+    FInputCount  : integer;
+    FOutputCount : integer;
+    FOffset      : integer;
+    FInputFeats  : integer;
+    FOutputFeats : integer;
+
+
+    FInputObjects   : array of array of double;
+    FInputOutValues : array of array of double;
+    FOutputObjects  : array of array of double;
+    FOutputErrors   : array of double;
+
+    procedure ReadInputObjects;
+    procedure SetupOutput(weights : integer);
+    procedure Execute(threshold : double; epochs : integer);
+    function  IndividualExecution(epochs : integer; outValue : integer) : double;
+    procedure UpdateOutput;
+    function  CompareInputObjects(obj1, obj2 : array of double) : boolean;
+    function  IsEqual(d1, d2 : double) : boolean;
+
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.Button1Click(Sender: TObject);
+  var
+    i, j : integer;
+    XStrL1, XStrl2 : TStringList;
+  begin
+  if OpenDialog1.Execute then
+     begin
+     XStrL1 := TStringList.Create;
+     XStrl1.LoadFromFile(OpenDialog1.FileName);
+     StringGrid1.RowCount := XStrl1.Count;
+     XStrL2 := TStringList.Create;
+     for i := 0 to XStrl1.Count - 1 do
+       begin
+       XStrl2.DelimitedText := XSTrl1.Strings[i];
+       if XStrl2.Count > Stringgrid1.ColCount then
+          StringGrid1.ColCount := XStrl2.Count;
+       for j := 0 to XStrl2.Count - 1 do
+         StringGrid1.Cells[j, i] := XStrl2.Strings[j];
+       end;
+     XStrl1.Free;
+     XStrl2.Free;
+     end;
+  end;
+
+procedure TForm1.CheckBox1Click(Sender: TObject);
+  begin
+  if CheckBox1.Checked then
+     StringGrid1.FixedRows := 1
+  else
+     StringGrid1.FixedRows := 0;
+  end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+  var
+    s : string;
+    i, j : integer;
+    XStrL : TStringList;
+  begin
+  if saveDialog1.Execute then
+     begin
+     XStrl := TStringList.Create;
+     for i := 0 to StringGrid1.RowCount - 1 do
+       begin
+       s := StringGrid1.Cells[0, i];
+       for j := 1 to StringGrid1.ColCount - 1 do
+         s := s + #9 + StringGrid1.Cells[j,i];
+       XStrl.Add(s);
+       end;
+     XStrl.SaveToFile(SaveDialog1.filename);
+     XStrl.free;
+     end;
+  end;
+
+procedure TForm1.Button3Click(Sender: TObject);
+  var
+    s : string;
+    i, j : integer;
+    XStrL : TStringList;
+  begin
+  if saveDialog1.Execute then
+     begin
+     XStrl := TStringList.Create;
+     for i := 0 to StringGrid2.RowCount - 1 do
+       begin
+       s := StringGrid2.Cells[0, i];
+       for j := 1 to StringGrid2.ColCount - 1 do
+         s := s + #9 + StringGrid2.Cells[j,i];
+       XStrl.Add(s);
+       end;
+     XStrl.SaveToFile(SaveDialog1.filename);
+     XStrl.free;
+     end;
+  end;
+
+
+  {
+  Homenagem póstuma a um sonho
+
+  E soava uma flauta... e o som era capaz de fazer todo um reino vibrar. Não por alto, ou forte, mas por
+  ressonar com todas as paredes e estruturas mal constuídas, que se empilhavam umas sobre as outras deixando
+  espaços vazios para o pó seguir se acumulando. E este pó, que outrora chegava a formar montanhas e mórbidas
+  esculturas, parecia ser espalhado e mesmo soprado para longe.
+
+  A ressonância do som assustaria qualquer incauto observador daquela cena, e mesmo os artifices, arquitetos
+e escultores do pó, pareciam se assustar daquele novo movimento. Enquanto isso, magos e fadas pareciam surgir
+de todos os cantos, rejuvenecidos pela intensidade daquela nova emoção.
+
+
+  }
+
+procedure TForm1.Button4Click(Sender: TObject);
+  begin
+  if FileExists(Edit1.text) then
+     begin
+     if FNetRep <> nil then
+        begin
+        FNetRep.ClearArcs;
+        FNetRep.ClearNodes;
+        end
+     else
+        FNetRep := TNetworkRep.Create(nil, nil);
+     FNetRep.LoadFromXML(edit1.Text);
+     FNetwork := TRafaANN.Create;
+     FNetwork.LoadDescription(FNetRep);
+     FOutputFeats := FNetwork.GetWeightCount;
+     ReadInputObjects;
+     SetupOutput(0); //**** Define number of weights
+     Execute(SpinEdit2.Value / 100, SpinEdit1.Value);
+     UpdateOutput;
+     FNetwork.Free;
+     FNetRep.Free;
+     end;
+
+  end;
+
+procedure TForm1.Execute(threshold : double; epochs : integer);
+  var i : integer;
+  begin
+  SetLength(FInputOutValues, FOutputCount, SpinEdit3.Value);
+  for i := 0 to FOutputCount - 1 do
+    begin
+    if FOutputErrors[i] > threshold then
+       FOutputErrors[i] := IndividualExecution(epochs, FOffSet + i);
+    gauge2.Progress := (i * 100) div FOutputCount;
+    Application.ProcessMessages;
+    end;
+  Gauge2.Progress := 100;
+  end;
+
+procedure TForm1.SetupOutput(weights : integer);
+  var i, j, XMin, XMax : integer;
+  begin
+  XMin := strtoint(StringGrid1.cells[StringGrid1.ColCount - 1, StringGrid1.FixedRows]);
+  XMax := strtoint(StringGrid1.cells[StringGrid1.ColCount - 1, StringGrid1.FixedRows]);
+  for i := StringGrid1.FixedRows + 1 to StringGrid1.RowCount - 1 do
+    begin
+    j := strtoint(StringGrid1.cells[StringGrid1.ColCount - 1, i]);
+    if j > XMax then XMax := j;
+    if j < XMin then XMin := j;
+    end;
+  FOffset := XMin;
+  FOutputCount := XMax - XMin;
+  FOutputFeats := weights;
+  SetLength(FoutputErrors, FOutputCount);
+  SetLength(FOutputObjects, FOutputCount, FOutputFeats);
+  for i := 0 to FOutputCount - 1 do
+    FOutputErrors[i] := 10; //stupid value for the beginning
+  end;
+
+procedure TForm1.UpdateOutput;
+  var i, j : integer;
+  begin
+  StringGrid2.ColCount := FOutputFeats;
+  StringGrid2.RowCount := FOutputCount + 1;
+  for j := 0 to FOutputFeats - 1 do
+    StringGrid2.Cells[j, 0] := 'Weight' + inttostr(j + 1);
+  for i := 1 to StringGrid2.RowCount - 1 do
+    for j := 0 to FOutputFeats - 1 do
+      StringGrid2.Cells[j, i] := FloatToStr(FOutputObjects[i - 1, j]);
+  end;
+
+procedure TForm1.ReadInputObjects;
+  var
+    i1, i2, j : integer;
+    obj1, obj2 : array of double;
+    Xbool1 : boolean;
+  begin
+  FInputFeats := StringGrid1.ColCount - (SpinEdit3.Value + 1);
+  SetLength(obj1, FInputFeats);
+  SetLength(obj2, FInputFeats);
+
+  FInputCount := 0;
+
+  for i1 := StringGrid1.FixedRows to StringGrid1.RowCount - 1 do
+    begin
+    for j := 0 to FInputFeats - 1 do
+      begin
+      try
+        obj1[j] := StrToFloat(StringGrid1.Cells[j, i1]);
+      except
+        obj1[j] := 0;
+        end;
+      end;
+    XBool1 := false;
+    i2 := 0;
+    while (not XBool1) and (i2 < FInputCount) do
+      begin
+      for j := 0 to FInputFeats - 1 do
+        obj2[j] := FInputObjects[i2, j];
+      XBool1 := CompareInputObjects(obj1, obj2);
+      i2 := i2 + 1;
+      end;
+    if not XBool1 then
+       begin
+       FInputCount := FInputCount + 1;
+       SetLength(FInputObjects, FInputCount, FInputFeats);
+       for j := 0 to FInputFeats - 1 do
+         FInputObjects[FInputCount - 1, j] := obj1[j];
+       end;
+    end;
+  end;
+
+function TForm1.CompareInputObjects(obj1, obj2: array of double): boolean;
+  var
+    i : integer;
+    b : boolean;
+  begin
+  b := true;
+  i := 0;
+  while b and (i < FInputFeats) do
+    begin
+    b := IsEqual(obj1[i], obj2[i]);
+    i := i + 1;
+    end;
+  result := b;
+  end;
+
+function TForm1.IsEqual(d1, d2: double): boolean;
+  begin
+  result := (d1 = d2);
+  end;
+
+function TForm1.IndividualExecution(epochs : integer; outValue : integer) : double;
+  var
+    i1, i2, j, Xtmp : integer;
+    obj1, obj2 : array of double;
+    wAr : array of double;
+    Xout1, XRmse : double;
+    XIsIn : boolean;
+  begin
+  SetLength(obj1, FInputFeats);
+  SetLength(obj2, FInputFeats);
+  for i1 := 0 to FInputCount - 1 do
+    begin
+    if SpinEdit3.Value = 0 then
+       Xtmp := 1
+    else
+       XTmp := SpinEdit3.Value;
+    for j := 0 to SpinEdit3.value - 1 do
+      FInputOutValues[i1, j] := 0;
+    end;
+  for i1 := 0 to FInputCount - 1 do
+    begin
+    for i2 := StringGrid1.FixedRows to StringGrid1.RowCount - 1 do
+      begin
+      for j := 0 to FInputFeats - 1 do
+        begin
+        obj1[j] := FInputObjects[i1, j];
+        obj2[j] := strToFloat(StringGrid1.cells[i2, j]);
+        end;
+      if CompareInputObjects(obj1, obj2) then
+         if strtoInt(StringGrid1.Cells[StringGrid1.ColCount - 1, i2]) = (i1 + FOffset) then
+            if SpinEdit3.Value = 0 then
+               FInputOutValues[i1, j] := 1
+            else
+               for j := 0 to SpinEdit3.value - 1 do
+                 FInputOutValues[i1, j] := StrtoFloat(StringGrid1.Cells[FInputFeats + j, i2]);
+      end;
+    end;
+
+  FNetwork.ResetNetwork;
+
+  SetLength(obj1, FInputFeats);
+  SetLength(obj2, SpinEdit3.Value);
+  for i1 := 0 to epochs - 1 do
+    begin
+    for i2 := 0 to FInputCount - 1 do
+      begin
+      XRMSE := 0;
+      for j := 0 to FInputFeats - 1 do
+        obj1[j] := FInputobjects[i2, j];
+      FNetwork.ApplyInputArray(Obj1, FInputFeats);
+      FNetwork.GetOutputArray(Obj2, SpinEdit3.Value);
+      for j := 0 to SpinEdit3.Value - 1 do
+        XRMSE := XRMSE + sqr(FInputOutValues[i2, j] - obj2[j]);
+      XRMSE := sqrt(XRMSE);
+      for j := 0 to SpinEdit3.Value - 1 do
+        obj2[j] := FInputOutValues[i2, j];
+      FNetwork.ApplyOutputArray(obj2, SpinEdit2.value)
+      end;
+    Gauge2.Progress := (i1 * 100) div Epochs;
+    Application.ProcessMessages;
+    end;
+  Gauge2.Progress := 100;
+  SetLength(WAr, FOutputFeats);
+  FNetwork.GetWeightArray(WAr, FOutputFeats);
+  for j := 0 to FOutputFeats - 1 do
+    FOutputObjects[outValue - FOffset, j] := WAr[j];
+  result := XRMSE;
+  end;
+
+end.

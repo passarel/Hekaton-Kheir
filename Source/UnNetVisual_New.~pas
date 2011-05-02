@@ -1,0 +1,143 @@
+unit UnNetVisual_New;
+
+//---------------------------------------------------------------------------------------------
+
+interface
+
+uses UnNetRep, UnRafaVisual, ExtCtrls;
+
+type TNetRepVisual = class
+  private
+    FNetRep : TNetworkRep;
+    FNetVisual : TRafaVisualConteiner;
+    FBeingUpdated : boolean;
+
+    procedure VisualItemEvent(index : integer);
+    procedure VisualConnectionEvent(index : integer);
+    function  GetNetRep : TNetworkRep;
+    function  GetNetVisual : TRafaVisualConteiner;
+
+  public
+    constructor Create(Background : TImage);
+    destructor  Destroy;
+
+    property NetRep : TNetworkRep read GetNetRep;
+    property NetVisual : TRafaVisualConteiner read GetNetVisual;
+
+
+
+    procedure UpdateVisual;
+
+  end;
+
+
+
+//---------------------------------------------------------------------------------------------
+
+implementation
+
+uses SysUtils;
+
+//---------------------------------------------------------------------------------------------
+
+{ TNetRepVisual }
+
+//---------------------------------------------------------------------------------------------
+
+constructor TNetRepVisual.Create(Background : TImage);
+  begin
+  FNetRep := TNetworkRep.Create(nil, nil);
+  FNetVisual := TRafaVisualConteiner.Create(BackGround);
+  FNetVisual.OnItemEvent := VisualItemEvent;
+  FNetVisual.OnConnectionEvent := VisualConnectionEvent;  
+  FBeingUpdated := false;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+destructor  TNetRepVisual.Destroy;
+  begin
+  FNetRep.Free;
+  FNetVisual.Free;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+function  TNetRepVisual.GetNetRep : TNetworkRep;
+  begin
+  result := FNetRep;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+function    TNetRepVisual.GetNetVisual : TRafaVisualConteiner;
+  begin
+  result := FNetVisual;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure   TNetRepVisual.UpdateVisual;
+  var
+    i : integer;
+    XtmpSource, XtmpTarget: integer;
+  begin
+  FBeingUpdated := true;
+  FNetVisual.ClearConnections;
+  FNetVisual.ClearItems;
+  for i := 0 to FNetRep.NoNodes - 1 do
+    begin
+    FNetVisual.AddItem(integer(FNetRep.Node[i].kind), i);
+    FNetVisual.Item[i].CenterX := FNetRep.Node[i].X;
+    FNetVisual.Item[i].CenterY := FNetRep.Node[i].Y;
+    end;
+  for i := 0 to FNetRep.NoArcs - 1 do
+    begin
+    FNetVisual.AddConnection(FNetRep.Arc[i].Source, FNetRep.Arc[i].Target);
+    end;
+  FBeingUpdated := false;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure TNetRepVisual.VisualConnectionEvent(index : integer);
+  begin
+  if not FBeingUpdated then
+     begin
+     if index < 0 then
+        FNetRep.DeleteArc((-index) - 1)
+     else if index < FNetRep.NoArcs then
+        begin
+        FNetRep.Arc[index].Source := FNetVisual.Connection[index].Source;
+        FNetRep.Arc[index].Target := FNetVisual.Connection[index].Target;
+        end
+     else
+        FNetRep.AddArc(FNetVisual.Connection[index].Source, FNetVisual.Connection[index].Target);
+     end;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure TNetRepVisual.VisualItemEvent(index : integer);
+  begin
+  if not FBeingUpdated then
+     begin
+     if index < 0 then
+        FNetRep.DeleteNode((-index) - 1)
+     else if index < FNetRep.NoNodes then
+        begin
+        FNetRep.Node[index].X := FNetVisual.Item[index].CenterX;
+        FNetRep.Node[index].Y := FNetVisual.Item[index].CenterY;
+        end
+     else
+        begin
+        FNetRep.AddNode('Node_' + inttostr(index), TUnitKind(FNetVisual.Item[index].Image))
+        FNetRep.Node[FNetRep.NoNodes - 1].X := FNetVisual.Item[index].CenterX;
+        FNetRep.Node[FNetRep.NoNodes - 1].Y := FNetVisual.Item[index].CenterY;        
+        end;
+     end;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+end.
