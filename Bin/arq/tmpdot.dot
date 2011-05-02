@@ -1,0 +1,129 @@
+digraph Network {
+ranksep=0.5; rankdir = LR;
+
+node [shape = plaintext, fontsize = 12]
+{"Inputs" -> 1 -> "1-2" -> 2 -> "2-3" -> 3 -> "Outputs"}
+{rank = same; "Inputs"; "Input0"; "Input1"; "Input2"; "Input3"; "Input4"; "Input5"; "Input6"; "Input7"; "Input8"; "Input9"; "Input10"; "Input11"; "Input12"; "Input13"; "Input14";}
+{rank = same; "Outputs"; "Output15"; "Output16"; "Output17";}
+
+subgraph cluster-1
+{
+  node [shape=ellipse,fontsize = 10];
+  color=grey;
+  label = "Level -1";
+}
+subgraph cluster0
+{
+  node [shape=ellipse,fontsize = 10];
+  color=grey;
+  label = "Level 0";
+{rank = same;  "(0)i:K1P1";  "(1)i:K1P1"; }
+}
+subgraph cluster1
+{
+  node [shape=ellipse,fontsize = 10];
+  color=grey;
+  label = "Level 1";
+{rank = same;  "(0)i:(+)Q2*";  "(1)i:Q2#";  "(1)i:(+)Q3*";  "(2)i:Q3#"; }
+}
+subgraph cluster2
+{
+  node [shape=ellipse,fontsize = 10];
+  color=grey;
+  label = "Level 2";
+{rank = same;  "Output15";  "Output16";  "Output17"; }
+}
+subgraph cluster3
+{
+  node [shape=ellipse,fontsize = 10];
+  color=grey;
+  label = "Level 3";
+{rank = same;  "(0)i:Q1'";  "(0)i:K1NP2'";  "(0)i:K1NP3'";  "(0)i:K2P2'";  "(0)i:K3P3'";  "(1)i:K1NP2'";  "(1)i:K1NP3'";  "(1)i:K2P2'";  "(1)i:K3P3'"; }
+}
+subgraph cluster4
+{
+  node [shape=ellipse,fontsize = 10];
+  color=grey;
+  label = "Level 4";
+}
+node [shape = ellipse, fontsize = 10]
+{rank = same;1; "(0)i:K1P1"; "(0)i:Q1'"; "(0)i:K1NP2'"; "(0)i:K1NP3'"; "(0)i:K2P2'"; "(0)i:K3P3'"; "(0)i:(+)Q2*"; "(1)i:K1P1"; "(1)i:Q2#"; "(1)i:K1NP2'"; "(1)i:K1NP3'"; "(1)i:K2P2'"; "(1)i:K3P3'"; "(1)i:(+)Q3*"; "(2)i:Q3#";}
+{rank = same;2; "(0)K1P1 :- Q1', K1NP2', K1NP3'"; "(0)(+)Q2 :- ~K1P1, ~K2P2', ~K3P3'"; "(0)(+)Q2 :- (+)Q2*"; "(1)K1P1 :- Q2#, K1NP2'"; "(1)K1P1 :- Q2#, K1NP3'"; "(1)(+)Q3 :- ~K1P1, ~K2P2', ~K3P3'"; "(1)(+)Q3 :- (+)Q3*"; "(1)Q2 :- Q2#"; "(2)K1P1 :- Q3#"; "(2)Q3 :- Q3#";}
+{rank = same;3; "(0)o:K1P1"; "(0)o:(+)Q2"; "(1)o:K1P1"; "(1)o:(+)Q3"; "(1)o:Q2"; "(2)o:K1P1"; "(2)o:Q3";}
+
+
+node [shape = point, fontsize = 6]
+"Input0" -> "Link0"
+"Input1" -> "Link1"
+"Input2" -> "Link2"
+"Input3" -> "Link3"
+"Input4" -> "Link4"
+"Input5" -> "Link5"
+"Input6" -> "Link6"
+"Input7" -> "Link7"
+"Input8" -> "Link8"
+"Input9" -> "Link9"
+"Input10" -> "Link10"
+"Input11" -> "Link11"
+"Input12" -> "Link12"
+"Input13" -> "Link13"
+"Input14" -> "Link14"
+"Link15" -> "Output15"
+"Link16" -> "Output16"
+"Link17" -> "Output17"
+"(0)i:Q1'" -> "(0)K1P1 :- Q1', K1NP2', K1NP3'"
+"(0)i:K1NP2'" -> "(0)K1P1 :- Q1', K1NP2', K1NP3'"
+"(0)i:K1NP3'" -> "(0)K1P1 :- Q1', K1NP2', K1NP3'"
+"(0)K1P1 :- Q1', K1NP2', K1NP3'" -> "(0)o:K1P1"
+"(0)i:K1P1" -> "(0)(+)Q2 :- ~K1P1, ~K2P2', ~K3P3'"
+"(0)i:K2P2'" -> "(0)(+)Q2 :- ~K1P1, ~K2P2', ~K3P3'"
+"(0)i:K3P3'" -> "(0)(+)Q2 :- ~K1P1, ~K2P2', ~K3P3'"
+"(0)(+)Q2 :- ~K1P1, ~K2P2', ~K3P3'" -> "(0)o:(+)Q2"
+"(0)i:(+)Q2*" -> "(0)(+)Q2 :- (+)Q2*"
+"(0)(+)Q2 :- (+)Q2*" -> "(0)o:(+)Q2"
+"(1)i:Q2#" -> "(1)K1P1 :- Q2#, K1NP2'"
+"(1)i:K1NP2'" -> "(1)K1P1 :- Q2#, K1NP2'"
+"(1)K1P1 :- Q2#, K1NP2'" -> "(1)o:K1P1"
+"(1)i:Q2#" -> "(1)K1P1 :- Q2#, K1NP3'"
+"(1)i:K1NP3'" -> "(1)K1P1 :- Q2#, K1NP3'"
+"(1)K1P1 :- Q2#, K1NP3'" -> "(1)o:K1P1"
+"(1)i:K1P1" -> "(1)(+)Q3 :- ~K1P1, ~K2P2', ~K3P3'"
+"(1)i:K2P2'" -> "(1)(+)Q3 :- ~K1P1, ~K2P2', ~K3P3'"
+"(1)i:K3P3'" -> "(1)(+)Q3 :- ~K1P1, ~K2P2', ~K3P3'"
+"(1)(+)Q3 :- ~K1P1, ~K2P2', ~K3P3'" -> "(1)o:(+)Q3"
+"(1)i:(+)Q3*" -> "(1)(+)Q3 :- (+)Q3*"
+"(1)(+)Q3 :- (+)Q3*" -> "(1)o:(+)Q3"
+"(1)i:Q2#" -> "(1)Q2 :- Q2#"
+"(1)Q2 :- Q2#" -> "(1)o:Q2"
+"(2)i:Q3#" -> "(2)K1P1 :- Q3#"
+"(2)K1P1 :- Q3#" -> "(2)o:K1P1"
+"(2)i:Q3#" -> "(2)Q3 :- Q3#"
+"(2)Q3 :- Q3#" -> "(2)o:Q3"
+
+node [shape = plaintext, fontsize = 10]
+"(0)o:K1P1" -> "Link15"
+"(0)o:K1P1" -> "r:K1P1"
+"(0)o:(+)Q2" -> "Link21"
+"(1)o:K1P1" -> "Link16"
+"(1)o:K1P1" -> "r:K1P1"
+"(1)o:(+)Q3" -> "Link19"
+"(1)o:Q2" -> "Link20"
+"(2)o:K1P1" -> "Link17"
+"(2)o:Q3" -> "Link18"
+"r:K1P1'" -> "(0)i:K1P1"
+"Link0" -> "(0)i:Q1'"
+"Link3" -> "(0)i:K1NP2'"
+"Link6" -> "(0)i:K1NP3'"
+"Link9" -> "(0)i:K2P2'"
+"Link12" -> "(0)i:K3P3'"
+"Link20'" -> "(0)i:(+)Q2*"
+"r:K1P1'" -> "(1)i:K1P1"
+"Link21'" -> "(1)i:Q2#"
+"Link4" -> "(1)i:K1NP2'"
+"Link7" -> "(1)i:K1NP3'"
+"Link10" -> "(1)i:K2P2'"
+"Link13" -> "(1)i:K3P3'"
+"Link18'" -> "(1)i:(+)Q3*"
+"Link19'" -> "(2)i:Q3#"
+{rank = same; "Outputs"; "Link18"; "Link19"; "Link20"; "Link21"; "r:K1P1"; "r:K1P1";}
+}
