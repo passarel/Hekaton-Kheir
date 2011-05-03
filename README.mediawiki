@@ -1,38 +1,37 @@
-  <p>The Hecatonchires, or Hekatonkheires, were three gargantuan figures of Greek mythology. Their name derives from the Greek hekaton ("hundred") and kheir ("hand"), and means "Hundred-Handed", "each of them having a hundred hands and fifty heads" (Bibliotheca). They were giants of incredible strength and ferocity, even superior to that of the Titans and the Cyclopes. They were children of Gaia and Uranus, simply the issue of Earth and Sky. Soon after they were born, their father, Uranus, threw them into the depths of Tartarus because he saw them as hideous monsters. (Source: wikipedia.org). </p>
+The Hecatonchires, or Hekatonkheires, were three gargantuan figures of Greek mythology. Their name derives from the Greek hekaton ("hundred") and kheir ("hand"), and means "Hundred-Handed", "each of them having a hundred hands and fifty heads" (Bibliotheca). They were giants of incredible strength and ferocity, even superior to that of the Titans and the Cyclopes. They were children of Gaia and Uranus, simply the issue of Earth and Sky. Soon after they were born, their father, Uranus, threw them into the depths of Tartarus because he saw them as hideous monsters. (Source: wikipedia.org).
 
-  <p>The Hekatonkheir project consists, basically, of a set of different resources to visualize and configure architectures of artificial neural networks (ANN) and of a (not so much) user-friendly interface to perform training, validation (according the method of cross validation) and application of the network, catering from different steps from handling the sets of input data until the visualization of the performance of the process. In terms of applications, it presents a series of interfaces to handle the integration with a logic programming language as well as dealing with representation and learning of temporal structures such as transition maps. </p>
-  
-   This project started at September, 2005, as a work for a post-graduate discipline. The main objective was to generate a visual interface to ANNs, allowing more clarity to visualize and edit specific configurations of them. Since then, different ideas has been incorporated to the project, with the main goal of integrating with neural-symbolic integration and applications in software engineering.
+The Hekatonkheir project consists, basically, of a set of different resources to visualize and configure architectures of artificial neural networks (ANN) and of a (not so much) user-friendly interface to perform training, validation (according the method of cross validation) and application of the network, catering from different steps from handling the sets of input data until the visualization of the performance of the process. In terms of applications, it presents a series of interfaces to handle the integration with a logic programming language as well as dealing with representation and learning of temporal structures such as transition maps.
+
+This project started at September, 2005, as a work for a post-graduate discipline. The main objective was to generate a visual interface to ANNs, allowing more clarity to visualize and edit specific configurations of them. Since then, different ideas has been incorporated to the project, with the main goal of integrating with neural-symbolic integration and applications in software engineering.
    
-   The name Hekatonkheir (maybe Frankenstein would be more adequated) is due the great amount of diferent modules and funcionalities integrated. When the first integrated tests were run, - and several bugs appeared, making me notice what a hideous monster that I had created - the image of Uranus when the Hekatonkheires were born came into my mind. Once, I told to a friend that finding a bug on the project was like find a flea behind the ear of a Hekatonkheir without knowing which head (the term "flea behind the ear" is a slang in Brazil, used to describe when somebody is worried or suspecting of something wrong).
+The name Hekatonkheir (maybe Frankenstein would be more adequated) is due the great amount of diferent modules and funcionalities integrated. When the first integrated tests were run, - and several bugs appeared, making me notice what a hideous monster that I had created - the image of Uranus when the Hekatonkheires were born came into my mind. Once, I told to a friend that finding a bug on the project was like find a flea behind the ear of a Hekatonkheir without knowing which head (the term "flea behind the ear" is a slang in Brazil, used to describe when somebody is worried or suspecting of something wrong).
        
-    This is an initial documentation for helping new users to start using the available functionalities, organized in the form of a "how-to". The following processes were defined until now:
+This is an initial documentation for helping new users to start using the available functionalities, organized in the form of a "how-to". The following processes were defined until now:
  
-  * Creating and configuring a new neural network, with or without BG knowledge
-  * Training and validating a neural network
-  * Visualizing charts
-  * Learning state diagrams    
+* Creating and configuring a new neural network, with or without BG knowledge
+* Training and validating a neural network
+* Visualizing charts
+* Learning state diagrams    
   
-  == How to ==
+== How to ==
 
-  In this document, we expect to explain, in general, how to use some of the resources provided by the tool in order to generate neural network, train them and analyse the results of the application of the network in test cases.
+In this document, we expect to explain, in general, how to use some of the resources provided by the tool in order to generate neural network, train them and analyse the results of the application of the network in test cases.
 
-  === Creating and configuring a neural network ===
+=== Creating and configuring a neural network ===
 
-  Hekaton Kheir initial interface allows the 
+Hekaton Kheir initial interface allows the 
 
-  == Compiling the source ==
+== Compiling the source ==
 
-  The Hekaton Kheir project is a software for academic and personal use, with open source (GPL license) and developed in Delphi Personal 7. In order to run the project in Delphi, however, some other libraries and components should be installed
+The Hekaton Kheir project is a software for academic and personal use, with open source (GPL license) and developed in Delphi Personal 7. In order to run the project in Delphi, however, some other libraries and components should be installed
 
-  * ImpStringGrid: developed by... available in...
-  * JEDI (JCL and JVCL), version...
-  * OpenXML...
-  * PngImage...
-  * SimpleGraph...
-  * XDOM...
-
-  
+* ImpStringGrid: developed by... available in...
+* JEDI (JCL and JVCL), version...
+* OpenXML...
+* PngImage...
+* SimpleGraph...
+* XDOM...
+ 
 
 
 
