@@ -19,7 +19,34 @@ In this document, we expect to explain, in general, how to use some of the resou
 
 === Creating and configuring a neural network ===
 
-...
+* Put a picture of the main window
+* Put a picture of the Wizard
+
+=== Editing input files ===
+
+* Put a picture (maybe a couple of them) of the file input thing
+
+=== Training and validating a network ===
+
+* Put a picture of the training environment
+* Put a picture of the training progress screen
+
+=== Analysing results ===
+
+* Put a picture of the Charts configuration screen
+* Put a picture of the Charts visualization screen
+
+=== Translating logic programs ===
+
+* Put a picture of the logic programs editor
+
+=== Learning and adapting state diagrams ===
+
+* Put a picture of the state diagrams tool.
+
+== Integration with model checking tool
+
+In this section, we illustrate the semi-automated process of integrating the learning capabilities of Hekaton Kheir neural networks with [http://nusmv.fbk.eu/ NuSMV model checker]. To this case, we will consider the 
 
 == Compiling the source ==
 
