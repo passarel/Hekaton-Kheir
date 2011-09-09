@@ -19,7 +19,8 @@ In this document, we expect to explain, in general, how to use some of the resou
 
 === Creating and configuring a neural network ===
 
-* Put a picture of the main window
+[[File:doc/images/mainWindow.jpg|frame|caption]]
+
 * Put a picture of the Wizard
 
 === Editing input files ===
