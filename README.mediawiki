@@ -19,7 +19,7 @@ In this document, we expect to explain, in general, how to use some of the resou
 
 === Creating and configuring a neural network ===
 
-[[File:doc/images/mainWindow.jpg|frame|caption]]
+[[image:doc/images/mainWindow.jpg|frame|Main window of Hekaton Kheir]]
 
 * Put a picture of the Wizard
 
