@@ -19,35 +19,29 @@ In this document, we expect to explain, in general, how to use some of the resou
 
 === Creating and configuring a neural network ===
 
-[[image:doc/images/mainWindow.jpg|frame|Main window of Hekaton Kheir]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/mainWindow.jpg|frame|Main window of Hekaton Kheir]]
 
-* Put a picture of the Wizard
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/netWizard.jpg|frame|Main window of Hekaton Kheir]]
 
 === Editing input files ===
 
-* Put a picture (maybe a couple of them) of the file input thing
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/fileConfig.jpg|frame|Main window of Hekaton Kheir]]
 
 === Training and validating a network ===
 
-* Put a picture of the training environment
-* Put a picture of the training progress screen
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/trainConfig.jpg|frame|Main window of Hekaton Kheir]]
+
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/trainEvolution.jpg|frame|Main window of Hekaton Kheir]]
 
 === Analysing results ===
 
-* Put a picture of the Charts configuration screen
-* Put a picture of the Charts visualization screen
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/chartConfig.jpg|frame|Main window of Hekaton Kheir]]
 
-=== Translating logic programs ===
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/chartVisual.jpg|frame|Main window of Hekaton Kheir]]
 
-* Put a picture of the logic programs editor
+== Temporal Models of Knowledge
 
-=== Learning and adapting state diagrams ===
-
-* Put a picture of the state diagrams tool.
-
-== Integration with model checking tool
-
-In this section, we illustrate the semi-automated process of integrating the learning capabilities of Hekaton Kheir neural networks with [http://nusmv.fbk.eu/ NuSMV model checker]. To this case, we will consider the 
+The most important feature of Hekaton Kheir consists on its support to the integration of symbolic sources of knowledge. In this section, we illustrate this features through the semi-automated process of integrating the learning capabilities of Hekaton Kheir neural networks with [http://nusmv.fbk.eu/ NuSMV model checker]. To this case, we will consider an example based on the configuration of a Pump System, in which signals from the environment are used to 
 
 == Compiling the source ==
 
