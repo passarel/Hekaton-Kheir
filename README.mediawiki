@@ -89,8 +89,6 @@ After defining how the data from the report will be grouped for analysis, one ca
 
 The most important feature of Hekaton Kheir, which makes it different of other available neural network software, consists on its support to the integration of symbolic sources of knowledge. Besides allowing the translation of logic programs into neural networks (through the Logic... menu), Hekaton also makes available a tool for visualizing and learning state machines, accessible via Extra -> SE prototype menu option. In the figure below, we can see more details on how this interface is structured. 
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/stateDiagram.jpg|center|Interface to learn temporal models]]
-
 The right hand side menu gives us a broad range of options to configure the learning environment and to perform adaptation tasks:
 
 * Network tab: for loading a network from a XML file, and also allows setting some of the learning parameters
@@ -187,7 +185,7 @@ The obtained results for any case are also illustrated on the folder. The .wmf f
 In this section, we show how to integrate the learning capabilities of Hekaton Kheir neural networks with [http://nusmv.fbk.eu/ NuSMV model checker]. Most of these operations still need strong intervention of the developer. In the modelChecking folder, we have an original description in NuSMV for our model, which is shown in the file description1.smv. This file can be translated into a SCTL description (as shown in description1.plg), which can then be used to produce a new network (as in the case of learnSequence3 experiments). Verifying the given property G !((PumpOn & CritMeth) & HiWat) in NuSMV will then return the output shown in file execution1.txt. 
 
 This result shown in file execution1.txt can then be analysed to generate the learning sequence shown in the last section. The learn process can then be deployed to adapt the model to that counter example. In the description2.smv and description2.plg files we will have these improved models. Again, a new verification can be performed, generating as result the content of the file exxecution2.txt. The sequence of these operations will finally get to the state where the property is verified, i.e, no counter example will be found for our verification process.
- 
+
 == Compiling the source ==
 
 The Hekaton Kheir project is a software for academic and personal use, with open source (GPL license) and developed in Delphi Personal 7. In order to run the project in Delphi, however, some other libraries and components should be installed
