@@ -140,11 +140,11 @@ Besides the visual editor, most of the configuration can be done through scripts
 
 === Description of the example ===
 
- To this case, we will consider an example based on the configuration of a Pump System, in which signals from the environment are used to set information about methane level (if it is high or low), about water pressure (if high or low) and about the actual pump (if it is off or on). The input variables are:
+To this case, we will consider an example based on the configuration of a Pump System, in which signals from the environment are used to set information about methane level (if it is high or low), about water pressure (if high or low) and about the actual pump (if it is off or on). The input variables are:
 
-* CrMeth
-* HiWater
-* PumpOn
+* signCrMethOn and signCrMethOff: to turn on and off the state variable CritMeth
+* signHiWaterOn and signHiWaterOff: to turn on and off the state variable HighWater
+* turnPumpOn and turnPumpOff: to turn on and off the state variable PumpOn
 
 There are many ways of building a network to represent this knowledge. We start by showing how to learn this knowledge from observable examples. In order to allow this learning to be performed in our system, we need to process an input file so it can be in the Hekaton .pid (processed input data) format. This file can then be used to train a network with the appropriate number of inputs and outputs. 
 
@@ -187,7 +187,7 @@ The obtained results for any case are also illustrated on the folder. The .wmf f
 In this section, we show how to integrate the learning capabilities of Hekaton Kheir neural networks with [http://nusmv.fbk.eu/ NuSMV model checker]. Most of these operations still need strong intervention of the developer. In the modelChecking folder, we have an original description in NuSMV for our model, which is shown in the file description1.smv. This file can be translated into a SCTL description (as shown in description1.plg), which can then be used to produce a new network (as in the case of learnSequence3 experiments). Verifying the given property G !((PumpOn & CritMeth) & HiWat) in NuSMV will then return the output shown in file execution1.txt. 
 
 This result shown in file execution1.txt can then be analysed to generate the learning sequence shown in the last section. The learn process can then be deployed to adapt the model to that counter example. In the description2.smv and description2.plg files we will have these improved models. Again, a new verification can be performed, generating as result the content of the file exxecution2.txt. The sequence of these operations will finally get to the state where the property is verified, i.e, no counter example will be found for our verification process.
-  
+ 
 == Compiling the source ==
 
 The Hekaton Kheir project is a software for academic and personal use, with open source (GPL license) and developed in Delphi Personal 7. In order to run the project in Delphi, however, some other libraries and components should be installed
