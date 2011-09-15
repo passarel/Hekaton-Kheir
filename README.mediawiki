@@ -21,33 +21,33 @@ In this document, we expect to explain, in general, how to use some of the resou
 
 In the main window of HekatonKheir, a visual illustration of current network is shown, as well as a menu to the configuration of general parameters of the network, and specific parameters of individual or groups of units. These files can be loaded and saved into a XML format. In the figure below, we illustrate this interface with a simple network being shown: this network has three layers of neurons. Notice that input and output units are shown in the network: these units are used by the interface only to illustrate which neurons are responsible for receiving the input values, and which are responsible to return the calculated output values for the network.
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/mainWindow.jpg|frame|Main window of Hekaton Kheir]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/mainWindow.jpg|center|Main window of Hekaton Kheir]]
 
-The menu in the right allows for the configuration of properties of the network, such as the style of training (i.e., the way data should be propagated through the recurrent links when training the network), the constants to define such styles, visual configuration and connection of units in a layered manner. Also, the menu have tabs that allow the individual configuration of units and connections from the network. Although inserting individual units is disabled in the main interface for this version, it is possible to insert them via menu. 
-  
+The menu in the right allows for the configuration of properties of the network, such as the style of training (i.e., the way data should be propagated through the recurrent links when training the network), the constants to define such styles, visual configuration and connection of units in a layered manner. Also, the menu have tabs that allow the individual configuration of units and connections from the network. Although inserting individual units is disabled in the main interface for this version, it is possible to insert them via menu.
+
 However, for creating new networks, we make two different interfaces available. At first, we have the logic programming interface, which allow propositional and temporal logic programs to be translated into neural networks through CILP or SCTL algorithms. On the other hand, for the generation of traditional networks, there is a wizard available, where general parameters can be given so pre-defined styles of networks are created. This wizard is accessible by tools -> wizards menu, and illustrated below.
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/netWizard.jpg|frame|Wizard for the creation of new networks]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/netWizard.jpg|center|100px|Wizard for the creation of new networks]]
 
 === Editing input files ===
 
 In order to train the network with examples, an file with the data set needs to be provided. In the menu Training -> Input Files, we allow several operations to be performed into a simple text file, such as selecting inputs and outputs to be used, naming the columns, randomizing the rows, grouping the rows to be presented in sequence or dividing the data set into n subsets for n-fold cross validation purposes. This allow for most of the tasks associated with the preparation of the file to training purposes.
-  
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/fileConfig.jpg|frame|Configuration of input data file]]
+
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/fileConfig.jpg|center|Configuration of input data file]]
 
 When opening the screen, a dialog box is shown to select the original file containing the input data. This file can be any text file, containing the numeric data to be used, separated by spaces or tabs. The left-side of the screen will show a grid with the data, with the first row representing the labels of the columns (if existing), and the first column illustrating the subsets used for cross validation purposes. The right hand have three different tabs, containing respectively:
-  
+
 * Configuration of the columns labels, groups of rows to be kept together as a sequence, and configuration of each individual column, used to identify maximum and minimum values, label and its use as input, output or both during training. 
 * Configuration of the subsets: allows to define the number of subsets used in cross-validation, as well as defining if these subsets should keep the proportional quantities of certain data patterns, according to given similarities. 
 * Value editor (beta version): allows further edition of the values inside the grid, such as replacing values or replacing enumerable values by a propositional representation.
-  
+
 After performing the necessary configuration, closing the window (through the OK button) will open a new dialog to specify the file that keeps this information (.pid extension). This file type will then be used for training in different tools provided by our framework, as in the next section:
 
 === Training and validating a network ===
 
 When selecting the menu option Training -> Execute, the screen shown below will allow for configuring and performing the training of a neural network. Basically, two kinds of training can be performed: training of the current network (the one being shown in the main interface) with the data on a selected .pid file, and the training of all the networks saved (as .xml) on a directory, using all the .pid files in the same directory (the used directories are specified in a text file).
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/trainConfig.jpg|frame|Interface for configuration of training/cross validation]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/trainConfig.jpg|center|Interface for configuration of training/cross validation]]
 
 As many of the options are given by the file, few details remain to be set before performing the training. The first consists in defining the minimum and maximum values used to normalize the data of the input files, in the case where these values differ from the definition of the network (given by the input and output units) and the definition of the file. On the right side, remaining options are given, such as:
 
@@ -71,19 +71,19 @@ As many of the options are given by the file, few details remain to be set befor
 
 After clicking the Execute button, a dialog box will open to select the file to save the report of that training. This report will then be saved under an extension .rrf (while an extra file with extension .rrf1 will be then created to keep more information about the evolution of the training). After this, the actual training will start, with a screen showing the progress of this process, and the evolution of the RMSE in a chart for each validation:
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/trainEvolution.jpg|frame|Screen illustrating the evolution of a training execution]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/trainEvolution.jpg|center|Screen illustrating the evolution of a training execution]]
 
 === Analysing results ===
 
 When using our tool, different results analysis were necessary to different applications. Our tool for analysing reports is an attempt to provide general functionalities to manipulate the data and generate charts. This interface can be open by selecting the menu Training -> Output Charts. Each report collected from training will have the desired and the obtained output values for each pattern (row of the input file), on the saved epoch. The left set of check boxes will allow the selection of which subsets are to be used to produce the report, where each subset represents one of the saved epoch of a specific validation. 
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/chartConfig.jpg|frame|Interface to configure charts]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/chartConfig.jpg|center|Interface to configure charts]]
 
 The main area of the interface will allow processing and grouping the values of different columns. Each group will return a result of a function, such as sum, average, standard deviation, etc.. The application of such functions can take as consideration either the individual columns or the differences between consecutive columns. All these settings can be defined individually for each group. Also, data from different rows can be grouped, in a similar manner, according to the settings provided by the bottom panel.
 
 After defining how the data from the report will be grouped for analysis, one can choose to save the result as a new file, or to show it as a chart. In the case of saving as a file, each group of columns for each subset will be saved as an individual column of the new report. On the other hand, when visualizing as a chart, each group of columns for each subset will be a different line series in the chart, as visualized in the screen shown below. The screen to visualize the charts allows to select which series should be visualized, as well as the color and the labels to be used. It also allows to save the charts as vetorial or bitmap images.
 
-[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/chartVisual.jpg|frame|Interface to visualise charts]]
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/chartVisual.jpg|center|Interface to visualise charts]]
 
 == Temporal Models of Knowledge ==
 
@@ -96,16 +96,24 @@ The most important feature of Hekaton Kheir consists on its support to the integ
 There are many ways of building a network to represent this knowledge. We start by showing how to learn this knowledge from observable examples. In order to allow this learning to be performed in our system, we need to process an input file so it can be in the Hekaton .pid (processed input data) format. This file can then be used to train a network with the appropriate number of inputs and outputs. The file ... illustrates the original data used, while the file ... is the processed input data when considering....
 
 Besides using the training interface as shown above, the state diagram interface can also be used in this case. In the figure below, we can see more details on how this interface is structured. The right hand side menu gives us a broad range of options to configure the learning environment and to perform adaptation tasks:
-  * Network tab: for loading a network from a XML file, and also allows setting some of the learning parameters
-  * Inputs tab: lists all the inputs in the domain, also allowing to unify sets of inputs to appear together in the state diagram
-  * States tab: in the same way as the inputs tab, but also allowing to set the X and Y position of each state represented in the diagram
-  * Transitions tab: list all the existing transitions on the chart, describing its attributes such as count and weight
-  * Data file tab: allows a .pid to be loaded, as well as configuring which data are to be considered in the learning process
-  * Supervision sequences: For the insertion of sequences that will supervise the learning process.
-  * Extra options: defines parameters to be used during execution, such as using the network output to define the next state, enabling learning and defining the correction of outputs when desired value is not given
-  * Defines the parameters for the execution, such as size of each epoch, number of epochs, rate for updating the diagram, and the percentage of inputs to be according to the supervision sequences (in the case of training based on sequences and random inputs)
-  
-  As a first example of the system, lets consider the learning of the 
+
+* Network tab: for loading a network from a XML file, and also allows setting some of the learning parameters
+
+* Inputs tab: lists all the inputs in the domain, also allowing to unify sets of inputs to appear together in the state diagram
+
+* States tab: in the same way as the inputs tab, but also allowing to set the X and Y position of each state represented in the diagram
+
+* Transitions tab: list all the existing transitions on the chart, describing its attributes such as count and weight
+
+* Data file tab: allows a .pid to be loaded, as well as configuring which data are to be considered in the learning process
+
+* Supervision sequences: For the insertion of sequences that will supervise the learning process.
+
+* Extra options: defines parameters to be used during execution, such as using the network output to define the next state, enabling learning and defining the correction of outputs when desired value is not given
+
+* Defines the parameters for the execution, such as size of each epoch, number of epochs, rate for updating the diagram, and the percentage of inputs to be according to the supervision sequences (in the case of training based on sequences and random inputs)
+
+As a first example of the system, lets consider the learning of the 
 
   
 == Compiling the source ==
