@@ -109,6 +109,8 @@ The right hand side menu gives us a broad range of options to configure the lear
 
 * Defines the parameters for the execution, such as size of each epoch, number of epochs, rate for updating the diagram, and the percentage of inputs to be according to the supervision sequences (in the case of training based on sequences and random inputs)
 
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/stateDiagram0.jpg|center|State diagram learning interface]]
+
 Besides the visual editor, most of the configuration can be done through scripts (.mms files). These scripts will contain simple instructions that can be loaded through the menu File -> Load. Examples of these scripts can be found in the examples folders, also available on the repository. These instructions are in the format described below:
 
 * add_input_variables: Inserts all the names in the given list as input variables
@@ -167,6 +169,8 @@ The results of the experiments described by the script are available in the same
 === Example 3: learning from sequences ===
 
 In the examples/learnSequences... folders, we find examples of how to use our interface to learn from the description of the desired states after sequences of inputs. In our case, we take a counter example obtained in the model checking process (as explained below), and convert it into the sequence {} -> CritMeth -> HiWat -> PumpOn -> ¬ PumpOn, which means that for any state, a sequence of signCritMeth, signHiWat, and turnPumpOn inputs should lead to a state where PumpOn is false. This is represented in our system as shown of figure below. In the script file, this is represented by the lines "load_sequences 1", identifying that there is one sequence to be loaded, a line "3" identifying that the sequence has 3 inputs, a line with the value of initial state "0 0 0" identifying that any value is accepted for the original state, and then a line for each input (in sequence) and the desired final state ("0 0 -1").
+
+[[image:http://github.com/passarel/Hekaton-Kheir/raw/master/doc/images/sequenceExample.jpg|center|Example of sequence to be learned]]
 
 Each of the folders illustrates a different scenario for the original network. All the scenarios consist on a network with knowledge about the original model, but this knowledge was inserted into the network in a different manner:
 
