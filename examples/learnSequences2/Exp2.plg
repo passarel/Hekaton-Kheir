@@ -1,0 +1,46 @@
+next_CritMeth :- ~in_SignNotCritMeth, ~in_SignHighWater, ~in_SignLowWater, ~in_TurnPumpOn, ~in_TurnPumpOff _count 124080 _weight 123793.180896652
+next_CritMeth :- in_SignCritMeth _count 208454400 _weight 207972543.906376
+next_CritMeth :- st_CritMeth, in_TurnPumpOff _count 473760 _weight 471697.138499094
+next_CritMeth :- st_CritMeth, in_TurnPumpOn _count 907200 _weight 899456.500520357
+next_CritMeth :- st_CritMeth, in_SignLowWater _count 2021040 _weight 2012715.6523921
+next_CritMeth :- st_CritMeth, in_SignHighWater _count 4410000 _weight 4399367.19765135
+next_CritMeth :- st_CritMeth, ~in_SignNotCritMeth _count 25225200 _weight 25157397.0457663
+not_CritMeth :- in_SignNotCritMeth _count 103057920 _weight 102819123.950112
+not_CritMeth :- ~in_SignCritMeth, ~in_SignHighWater, ~in_SignLowWater, ~in_TurnPumpOn, ~in_TurnPumpOff _count 61344 _weight 61201.8594941141
+not_CritMeth :- ~st_CritMeth, in_TurnPumpOff _count 252000 _weight 249200.067290264
+not_CritMeth :- ~st_CritMeth, in_TurnPumpOn _count 569520 _weight 564124.262903233
+not_CritMeth :- ~st_CritMeth, in_SignLowWater _count 987840 _weight 984156.45230547
+not_CritMeth :- ~st_CritMeth, in_SignHighWater _count 1839600 _weight 1833420.5559319
+not_CritMeth :- ~st_CritMeth, ~in_SignCritMeth _count 7882560 _weight 7854408.75760067
+next_HighWater :- in_SignHighWater _count 49996800 _weight 49862302.028666
+next_HighWater :- ~in_SignCritMeth, ~in_SignNotCritMeth, ~in_SignLowWater, ~in_TurnPumpOn, ~in_TurnPumpOff _count 29760 _weight 29679.9416837298
+next_HighWater :- st_HighWater, in_TurnPumpOff _count 463680 _weight 460731.786982414
+next_HighWater :- st_HighWater, in_TurnPumpOn _count 952560 _weight 943637.4348283
+next_HighWater :- st_HighWater, ~in_SignLowWater _count 31429440 _weight 31350414.6292571
+next_HighWater :- st_HighWater, in_SignNotCritMeth _count 8512560 _weight 8495396.3125631
+next_HighWater :- st_HighWater, in_SignCritMeth _count 17332560 _weight 17292232.4543773
+not_HighWater :- in_SignLowWater _count 24071040 _weight 23974976.8375806
+not_HighWater :- ~in_SignCritMeth, ~in_SignNotCritMeth, ~in_SignHighWater, ~in_TurnPumpOn, ~in_TurnPumpOff _count 14328 _weight 14270.8195461789
+not_HighWater :- ~st_HighWater, in_TurnPumpOff _count 262080 _weight 260165.418806944
+not_HighWater :- ~st_HighWater, in_TurnPumpOn _count 524160 _weight 519943.328595291
+not_HighWater :- ~st_HighWater, ~in_SignHighWater _count 14807520 _weight 14765426.0645287
+not_HighWater :- ~st_HighWater, in_SignNotCritMeth _count 4369680 _weight 4356994.18120086
+not_HighWater :- ~st_HighWater, in_SignCritMeth _count 8724240 _weight 8704335.53391969
+next_PumpOn :- st_PumpOn, ~in_TurnPumpOff _count 26686800 _weight 26610983.4874624
+next_PumpOn :- st_PumpOn, in_TurnPumpOn _count 786240 _weight 782866.624989919
+next_PumpOn :- st_PumpOn, in_SignLowWater _count 1688400 _weight 1682903.08111031
+next_PumpOn :- st_PumpOn, in_SignHighWater _count 3351600 _weight 3340662.21674247
+next_PumpOn :- st_PumpOn, in_SignNotCritMeth _count 6783840 _weight 6767962.78354175
+next_PumpOn :- st_PumpOn, in_SignCritMeth _count 14076720 _weight 14036588.781078
+next_PumpOn :- ~st_HighWater, in_TurnPumpOn _count 524160 _weight 519943.328595291
+next_PumpOn :- ~st_HighWater, ~in_SignCritMeth, ~in_SignNotCritMeth, ~in_SignHighWater, ~in_SignLowWater, ~in_TurnPumpOff _count 624 _weight 618.980153089632
+next_PumpOn :- ~st_CritMeth, in_TurnPumpOn _count 569520 _weight 564124.262903233
+next_PumpOn :- ~st_CritMeth, ~in_SignCritMeth, ~in_SignNotCritMeth, ~in_SignHighWater, ~in_SignLowWater, ~in_TurnPumpOff _count 678 _weight 671.57650345623
+not_PumpOn :- in_TurnPumpOff _count 5806080 _weight 5767177.64631487
+not_PumpOn :- ~in_SignCritMeth, ~in_SignNotCritMeth, ~in_SignHighWater, ~in_SignLowWater, ~in_TurnPumpOn _count 3456 _weight 3432.84383709218
+not_PumpOn :- ~st_PumpOn, ~in_TurnPumpOn _count 22654800 _weight 22604866.4195765
+not_PumpOn :- ~st_PumpOn, in_SignLowWater _count 1320480 _weight 1313969.02358726
+not_PumpOn :- ~st_PumpOn, in_SignHighWater _count 2898000 _weight 2892125.53684078
+not_PumpOn :- ~st_PumpOn, in_SignNotCritMeth _count 6098400 _weight 6084427.71022221
+not_PumpOn :- ~st_PumpOn, in_SignCritMeth _count 11980080 _weight 11959979.2072189
+not_PumpOn :- st_CritMeth, st_HighWater, ~st_PumpOn _count 1581840 _weight 1579209.49641733

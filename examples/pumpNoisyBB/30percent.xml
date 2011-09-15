@@ -1,0 +1,344 @@
+<neural_network LinkFlow="0" EtaCorrection="1" Nu="1" Upsilon="1" HasMomentum="YES">
+<nodes number="30">
+<node index="0" name="Neu_0-1" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.900724045220521</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="1" name="Neu_0-2" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.0277038399292601</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="2" name="Neu_0-3" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.267339256019155</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="3" name="Neu_0-4" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.0439137477464726</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="4" name="Neu_0-5" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.0198551994327401</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="5" name="Neu_0-6" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.528337226834321</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="6" name="Neu_0-7" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.358849826066077</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="7" name="Neu_0-8" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.277180485717383</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="8" name="Neu_0-9" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.44212130702876</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="9" name="Neu_1-1" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.882155515962481</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="10" name="Neu_1-2" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>1.01210419702101</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="11" name="Neu_1-3" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.183407130831006</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="12" name="Neu_1-4" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.0693431242797083</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="13" name="Neu_1-5" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>-0.857801414581729</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="14" name="Neu_1-6" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.9816470310391</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="15" name="Neu_2-1" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.685030851502982</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="16" name="Neu_2-2" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.179440456339171</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="17" name="Neu_2-3" posX="0" posY="0" world="-1" kind="Neuron">
+<eta>0.05</eta>
+<momentum>0</momentum>
+<activation>2</activation>
+<has_bias>-1</has_bias>
+<bias_weight>0.491621453397457</bias_weight>
+<random_bias>0</random_bias>
+<param_0>1</param_0>
+<fixed_bias>0</fixed_bias>
+</node>
+<node index="18" name="Input0" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="19" name="Input1" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="20" name="Input2" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="21" name="Input3" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="22" name="Input4" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="23" name="Input5" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="24" name="Input6" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="25" name="Input7" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="26" name="Input8" posX="0" posY="0" world="-1" kind="Input">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="27" name="Output2" posX="0" posY="0" world="-1" kind="Output">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="28" name="Output1" posX="0" posY="0" world="-1" kind="Output">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+<node index="29" name="Output0" posX="0" posY="0" world="-1" kind="Output">
+<InMax>1</InMax>
+<InMin>-1</InMin>
+<OutMax>1</OutMax>
+<OutMin>-1</OutMin>
+</node>
+</nodes>
+<synapses number="84">
+<synapse index="0" source="0" target="9" weight="0.804356305171295" random="0" fixed="0"/>
+<synapse index="1" source="0" target="10" weight="-0.78503468993427" random="0" fixed="0"/>
+<synapse index="2" source="0" target="11" weight="1.05560472380191" random="0" fixed="0"/>
+<synapse index="3" source="0" target="12" weight="2.47235582050035" random="0" fixed="0"/>
+<synapse index="4" source="0" target="13" weight="-0.947943059154547" random="0" fixed="0"/>
+<synapse index="5" source="0" target="14" weight="-5.83752678015669" random="0" fixed="0"/>
+<synapse index="6" source="1" target="9" weight="-0.0891249114966444" random="0" fixed="0"/>
+<synapse index="7" source="1" target="10" weight="-1.38677289640622" random="0" fixed="0"/>
+<synapse index="8" source="1" target="11" weight="-1.98408716510378" random="0" fixed="0"/>
+<synapse index="9" source="1" target="12" weight="0.715118625135294" random="0" fixed="0"/>
+<synapse index="10" source="1" target="13" weight="1.22767435866675" random="0" fixed="0"/>
+<synapse index="11" source="1" target="14" weight="5.1942674890467" random="0" fixed="0"/>
+<synapse index="12" source="2" target="9" weight="-1.22741510337118" random="0" fixed="0"/>
+<synapse index="13" source="2" target="10" weight="0.94943986597747" random="0" fixed="0"/>
+<synapse index="14" source="2" target="11" weight="7.74618196377921" random="0" fixed="0"/>
+<synapse index="15" source="2" target="12" weight="0.841837393388751" random="0" fixed="0"/>
+<synapse index="16" source="2" target="13" weight="-1.66837905257793" random="0" fixed="0"/>
+<synapse index="17" source="2" target="14" weight="0.364386965277929" random="0" fixed="0"/>
+<synapse index="18" source="3" target="9" weight="-2.82564655646266" random="0" fixed="0"/>
+<synapse index="19" source="3" target="10" weight="-2.40403768317375" random="0" fixed="0"/>
+<synapse index="20" source="3" target="11" weight="-7.49331989415719" random="0" fixed="0"/>
+<synapse index="21" source="3" target="12" weight="0.365524758541264" random="0" fixed="0"/>
+<synapse index="22" source="3" target="13" weight="-0.939678629896039" random="0" fixed="0"/>
+<synapse index="23" source="3" target="14" weight="-0.915788939362749" random="0" fixed="0"/>
+<synapse index="24" source="4" target="9" weight="-1.18299184338267" random="0" fixed="0"/>
+<synapse index="25" source="4" target="10" weight="-1.51686754311872" random="0" fixed="0"/>
+<synapse index="26" source="4" target="11" weight="1.40989997172874" random="0" fixed="0"/>
+<synapse index="27" source="4" target="12" weight="4.88925935747784" random="0" fixed="0"/>
+<synapse index="28" source="4" target="13" weight="-1.10926385195652" random="0" fixed="0"/>
+<synapse index="29" source="4" target="14" weight="1.18054433947482" random="0" fixed="0"/>
+<synapse index="30" source="5" target="9" weight="1.56229222199415" random="0" fixed="0"/>
+<synapse index="31" source="5" target="10" weight="1.28272608413158" random="0" fixed="0"/>
+<synapse index="32" source="5" target="11" weight="-1.60852723962647" random="0" fixed="0"/>
+<synapse index="33" source="5" target="12" weight="-10.0842278129545" random="0" fixed="0"/>
+<synapse index="34" source="5" target="13" weight="-1.2068572168157" random="0" fixed="0"/>
+<synapse index="35" source="5" target="14" weight="1.2777257348461" random="0" fixed="0"/>
+<synapse index="36" source="6" target="9" weight="-3.06728340371002" random="0" fixed="0"/>
+<synapse index="37" source="6" target="10" weight="0.199304018387036" random="0" fixed="0"/>
+<synapse index="38" source="6" target="11" weight="-0.535113575451562" random="0" fixed="0"/>
+<synapse index="39" source="6" target="12" weight="-0.0538893070897757" random="0" fixed="0"/>
+<synapse index="40" source="6" target="13" weight="-3.26685682660328" random="0" fixed="0"/>
+<synapse index="41" source="6" target="14" weight="-6.12482836493409" random="0" fixed="0"/>
+<synapse index="42" source="7" target="9" weight="-2.16771915378965" random="0" fixed="0"/>
+<synapse index="43" source="7" target="10" weight="4.08730694021877" random="0" fixed="0"/>
+<synapse index="44" source="7" target="11" weight="7.86382694702842" random="0" fixed="0"/>
+<synapse index="45" source="7" target="12" weight="2.44542347131036" random="0" fixed="0"/>
+<synapse index="46" source="7" target="13" weight="-1.74512959749957" random="0" fixed="0"/>
+<synapse index="47" source="7" target="14" weight="-1.11776223930893" random="0" fixed="0"/>
+<synapse index="48" source="8" target="9" weight="-1.61184925725823" random="0" fixed="0"/>
+<synapse index="49" source="8" target="10" weight="2.09627662564792" random="0" fixed="0"/>
+<synapse index="50" source="8" target="11" weight="0.788769751661201" random="0" fixed="0"/>
+<synapse index="51" source="8" target="12" weight="9.58872141505126" random="0" fixed="0"/>
+<synapse index="52" source="8" target="13" weight="1.45530108244" random="0" fixed="0"/>
+<synapse index="53" source="8" target="14" weight="-1.54131935917999" random="0" fixed="0"/>
+<synapse index="54" source="9" target="15" weight="0.51618998079152" random="0" fixed="0"/>
+<synapse index="55" source="9" target="16" weight="-0.412557939729213" random="0" fixed="0"/>
+<synapse index="56" source="9" target="17" weight="0.668969221725564" random="0" fixed="0"/>
+<synapse index="57" source="10" target="15" weight="-0.952301363628078" random="0" fixed="0"/>
+<synapse index="58" source="10" target="16" weight="-0.677399100816827" random="0" fixed="0"/>
+<synapse index="59" source="10" target="17" weight="-0.52805403236493" random="0" fixed="0"/>
+<synapse index="60" source="11" target="15" weight="-0.0984375473670084" random="0" fixed="0"/>
+<synapse index="61" source="11" target="16" weight="2.09562482951719" random="0" fixed="0"/>
+<synapse index="62" source="11" target="17" weight="-0.1307561301063" random="0" fixed="0"/>
+<synapse index="63" source="12" target="15" weight="2.16896889775636" random="0" fixed="0"/>
+<synapse index="64" source="12" target="16" weight="-0.306063056084647" random="0" fixed="0"/>
+<synapse index="65" source="12" target="17" weight="0.147148520720106" random="0" fixed="0"/>
+<synapse index="66" source="13" target="15" weight="-0.887437950108405" random="0" fixed="0"/>
+<synapse index="67" source="13" target="16" weight="0.484329464560851" random="0" fixed="0"/>
+<synapse index="68" source="13" target="17" weight="-0.658176916895703" random="0" fixed="0"/>
+<synapse index="69" source="14" target="15" weight="0.385125893063745" random="0" fixed="0"/>
+<synapse index="70" source="14" target="16" weight="-0.131654531036739" random="0" fixed="0"/>
+<synapse index="71" source="14" target="17" weight="-1.93777884308248" random="0" fixed="0"/>
+<synapse index="72" source="18" target="0" weight="1" random="0" fixed="-1"/>
+<synapse index="73" source="19" target="1" weight="1" random="0" fixed="-1"/>
+<synapse index="74" source="20" target="2" weight="1" random="0" fixed="-1"/>
+<synapse index="75" source="21" target="3" weight="1" random="0" fixed="-1"/>
+<synapse index="76" source="22" target="4" weight="1" random="0" fixed="-1"/>
+<synapse index="77" source="23" target="5" weight="1" random="0" fixed="-1"/>
+<synapse index="78" source="24" target="6" weight="1" random="0" fixed="-1"/>
+<synapse index="79" source="25" target="7" weight="1" random="0" fixed="-1"/>
+<synapse index="80" source="26" target="8" weight="1" random="0" fixed="-1"/>
+<synapse index="81" source="17" target="27" weight="0" random="0" fixed="-1"/>
+<synapse index="82" source="16" target="28" weight="0" random="0" fixed="-1"/>
+<synapse index="83" source="15" target="29" weight="0" random="0" fixed="-1"/>
+</synapses>
+<worlds count="0" links="0">
+</worlds>
+</neural_network>
