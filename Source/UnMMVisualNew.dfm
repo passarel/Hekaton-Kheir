@@ -1,9 +1,9 @@
 object FmMMMain: TFmMMMain
   Left = 49
   Top = 78
-  Width = 982
-  Height = 720
   Caption = 'FmMMMain'
+  ClientHeight = 661
+  ClientWidth = 966
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,7 +21,7 @@ object FmMMMain: TFmMMMain
     Left = 0
     Top = 0
     Width = 666
-    Height = 662
+    Height = 661
     Align = alClient
     ClipboardFormats = [cfNative, cfMetafile, cfBitmap]
     Color = clWhite
@@ -50,7 +50,7 @@ object FmMMMain: TFmMMMain
     Left = 666
     Top = 0
     Width = 300
-    Height = 662
+    Height = 661
     Align = alRight
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -61,11 +61,13 @@ object FmMMMain: TFmMMMain
     TabOrder = 1
     object Panel2: TPanel
       Left = 1
-      Top = 33
+      Top = 179
       Width = 298
       Height = 32
       Align = alTop
       TabOrder = 0
+      ExplicitLeft = 6
+      ExplicitTop = 35
       object Label8: TLabel
         Left = 16
         Top = 8
@@ -149,11 +151,12 @@ object FmMMMain: TFmMMMain
     end
     object Panel3: TPanel
       Left = 1
-      Top = 65
+      Top = 211
       Width = 298
       Height = 32
       Align = alTop
       TabOrder = 1
+      ExplicitTop = 65
       object Label9: TLabel
         Left = 16
         Top = 8
@@ -267,11 +270,12 @@ object FmMMMain: TFmMMMain
     end
     object Panel4: TPanel
       Left = 1
-      Top = 97
+      Top = 243
       Width = 298
       Height = 32
       Align = alTop
       TabOrder = 2
+      ExplicitTop = 97
       object Label10: TLabel
         Left = 16
         Top = 8
@@ -397,11 +401,12 @@ object FmMMMain: TFmMMMain
     end
     object Panel5: TPanel
       Left = 1
-      Top = 425
+      Top = 571
       Width = 298
       Height = 32
       Align = alTop
       TabOrder = 3
+      ExplicitTop = 425
       object Label7: TLabel
         Left = 16
         Top = 8
@@ -502,6 +507,7 @@ object FmMMMain: TFmMMMain
         BevelOuter = bvNone
         PopupMenu = PopupMenu2
         TabOrder = 9
+        ColorPaletteIndex = 13
       end
       object Button9: TButton
         Left = 272
@@ -617,11 +623,12 @@ object FmMMMain: TFmMMMain
     end
     object Panel6: TPanel
       Left = 1
-      Top = 129
+      Top = 275
       Width = 298
       Height = 32
       Align = alTop
       TabOrder = 4
+      ExplicitTop = 129
       object Label15: TLabel
         Left = 16
         Top = 8
@@ -725,7 +732,7 @@ object FmMMMain: TFmMMMain
       Left = 1
       Top = 1
       Width = 298
-      Height = 32
+      Height = 178
       Align = alTop
       TabOrder = 5
       object Label17: TLabel
@@ -852,11 +859,12 @@ object FmMMMain: TFmMMMain
     end
     object Panel8: TPanel
       Left = 1
-      Top = 161
+      Top = 307
       Width = 298
       Height = 232
       Align = alTop
       TabOrder = 6
+      ExplicitTop = 161
       object Label25: TLabel
         Left = 16
         Top = 8
@@ -934,11 +942,12 @@ object FmMMMain: TFmMMMain
     end
     object Panel9: TPanel
       Left = 1
-      Top = 393
+      Top = 539
       Width = 298
       Height = 32
       Align = alTop
       TabOrder = 7
+      ExplicitTop = 393
       object Label28: TLabel
         Left = 16
         Top = 8

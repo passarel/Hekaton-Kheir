@@ -1116,7 +1116,6 @@ procedure TFmMMMain.Button10Click(Sender: TObject);
         FNetwork := TNetworkRep.Create(nil,nil);
      FNetwork.LoadFromXML(OpenDialog1.FileName);
      FStructure.LoadNetwork(OpenDialog1.FileName);
-
      end;
   UpdateGraphStatesList;
   UpdateFullStateList;

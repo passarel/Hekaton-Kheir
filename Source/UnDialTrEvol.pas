@@ -24,13 +24,13 @@ type TFmTrEvol = class(TForm)
     Gauge2: TGauge;
     Label3: TLabel;
     Chart1: TChart;
-    Series1: TFastLineSeries;
-    Series2: TFastLineSeries;
     Button2: TButton;
     Button3: TButton;
     UpDown1: TUpDown;
     Button4: TButton;
     SaveDialog1: TSaveDialog;
+    Series1: TLineSeries;
+    Series2: TLineSeries;
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);

@@ -88,98 +88,20 @@
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="UnAbout.pas">
-            <Form>FmAbout</Form>
-        </DCCReference>
-        <DCCReference Include="UnChVis.pas">
-            <Form>FmChVis</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialChConf.pas">
-            <Form>FmChConf</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialColumn.pas">
-            <Form>FmColDial</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialCross.pas">
-            <Form>FmCross</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialDinPhil.pas">
-            <Form>FmPhil</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialDoubleFloat.pas">
-            <Form>FmDoubleFloat</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialEdit.pas">
-            <Form>FmEdit</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialFile.pas">
-            <Form>FmFileConf</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialMerge.pas">
-            <Form>FmMerge</Form>
-        </DCCReference>
-        <DCCReference Include="UnDialNode.pas">
-            <Form>FmNode</Form>
-        </DCCReference>
         <DCCReference Include="UnDialTrEvol.pas">
             <Form>FmTrEvol</Form>
         </DCCReference>
-        <DCCReference Include="UnDialWizards.pas">
-            <Form>FmWizards</Form>
-        </DCCReference>
-        <DCCReference Include="UnFmMain.pas">
-            <Form>MainForm</Form>
-        </DCCReference>
-        <DCCReference Include="UnFmMuddyChildren.pas">
-            <Form>FmMuddyChildren</Form>
-        </DCCReference>
-        <DCCReference Include="UnFunct.pas">
-            <Form>FmFunct</Form>
-        </DCCReference>
         <DCCReference Include="UnFunctions.pas"/>
-        <DCCReference Include="UnLogForm.pas">
-            <Form>FmLogic</Form>
-        </DCCReference>
-        <DCCReference Include="UnLogGen.pas"/>
-        <DCCReference Include="UnLogPars.pas"/>
-        <DCCReference Include="UnLogScan.pas"/>
-        <DCCReference Include="UnLogScanAut.pas"/>
+        <DCCReference Include="UnLabelInformation.pas"/>
         <DCCReference Include="UnLogSing.pas"/>
         <DCCReference Include="UnLogStruct.pas"/>
-        <DCCReference Include="UnMCDiningTable.pas"/>
-        <DCCReference Include="UnMCPhilosopher.pas"/>
-        <DCCReference Include="UnMCPrototype.pas">
-            <Form>Form2</Form>
-        </DCCReference>
-        <DCCReference Include="UnMMDialTransition.pas">
-            <Form>FmMMTransition</Form>
-        </DCCReference>
-        <DCCReference Include="UnMMDialVar.pas">
-            <Form>FmMMDialVar</Form>
-        </DCCReference>
         <DCCReference Include="UnMMStructure.pas"/>
         <DCCReference Include="UnMMVisualNew.pas">
             <Form>FmMMMain</Form>
         </DCCReference>
         <DCCReference Include="UnNetBehaviour.pas"/>
         <DCCReference Include="UnNetRep.pas"/>
-        <DCCReference Include="UnNetVisual.pas"/>
-        <DCCReference Include="UnPedagogical.pas">
-            <Form>FmPedagogical</Form>
-        </DCCReference>
         <DCCReference Include="UnRafaAux2007.pas"/>
-        <DCCReference Include="UnRafaVisual.pas"/>
-        <DCCReference Include="UnResults.pas"/>
-        <DCCReference Include="UnWeightVis.pas">
-            <Form>FmWeightVis</Form>
-        </DCCReference>
-        <DCCReference Include="UnPhil.pas">
-            <Form>FmOldPhil</Form>
-        </DCCReference>
-        <DCCReference Include="UnLineComp.pas">
-            <Form>FmLineComp</Form>
-        </DCCReference>
-        <DCCReference Include="UnLabelInformation.pas"/>
         <BuildConfiguration Include="Debug">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -227,6 +149,7 @@
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
+            <ModelSupport>False</ModelSupport>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>

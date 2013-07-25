@@ -3,7 +3,7 @@ object FmTrEvol: TFmTrEvol
   Top = 57
   BorderStyle = bsDialog
   Caption = 'Treinamento da Rede'
-  ClientHeight = 171
+  ClientHeight = 469
   ClientWidth = 678
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -110,26 +110,32 @@ object FmTrEvol: TFmTrEvol
     Color = clWhite
     TabOrder = 1
     Visible = False
-    object Series1: TFastLineSeries
+    ColorPaletteIndex = 6
+    object Series1: TLineSeries
       Marks.Arrow.Visible = True
       Marks.Callout.Brush.Color = clBlack
       Marks.Callout.Arrow.Visible = True
+      Marks.ShapeStyle = fosRoundRectangle
       Marks.Visible = False
-      SeriesColor = clGray
-      Title = 'Training'
-      LinePen.Color = clGray
+      Brush.BackColor = clDefault
+      Pointer.InflateMargins = True
+      Pointer.Style = psRectangle
+      Pointer.Visible = False
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Y'
       YValues.Order = loNone
     end
-    object Series2: TFastLineSeries
+    object Series2: TLineSeries
       Marks.Arrow.Visible = True
       Marks.Callout.Brush.Color = clBlack
       Marks.Callout.Arrow.Visible = True
+      Marks.ShapeStyle = fosRoundRectangle
       Marks.Visible = False
-      SeriesColor = clBlack
-      Title = 'Test'
+      Brush.BackColor = clDefault
+      Pointer.InflateMargins = True
+      Pointer.Style = psRectangle
+      Pointer.Visible = False
       XValues.Name = 'X'
       XValues.Order = loAscending
       YValues.Name = 'Y'
