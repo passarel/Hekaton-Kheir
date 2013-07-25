@@ -1,6 +1,6 @@
 object FmCross: TFmCross
-  Left = 119
-  Top = 24
+  Left = 149
+  Top = 32
   BorderStyle = bsDialog
   Caption = 'Cross Validation'
   ClientHeight = 546

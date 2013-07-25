@@ -1,8 +1,8 @@
 object FmDoubleFloat: TFmDoubleFloat
   Left = 473
   Top = 228
-  Width = 160
-  Height = 180
+  Width = 165
+  Height = 177
   Caption = 'FmDoubleFloat'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -47,30 +47,20 @@ object FmDoubleFloat: TFmDoubleFloat
     TabOrder = 1
     OnClick = Button2Click
   end
-  object JvValidateEdit2: TJvValidateEdit
+  object Edit1: TEdit
     Left = 16
-    Top = 72
+    Top = 24
     Width = 121
     Height = 21
-    CriticalPoints.MaxValueIncluded = False
-    CriticalPoints.MinValueIncluded = False
-    TrimDecimals = True
-    DisplayFormat = dfFloat
-    DecimalPlaces = 8
-    EditText = '0.0240'
     TabOrder = 2
+    Text = 'Edit1'
   end
-  object JvValidateEdit1: TJvValidateEdit
+  object Edit2: TEdit
     Left = 16
-    Top = 32
+    Top = 80
     Width = 121
     Height = 21
-    CriticalPoints.MaxValueIncluded = False
-    CriticalPoints.MinValueIncluded = False
-    TrimDecimals = True
-    DisplayFormat = dfFloat
-    DecimalPlaces = 8
-    EditText = '0.0240'
     TabOrder = 3
+    Text = 'Edit1'
   end
 end

@@ -39,7 +39,7 @@ type
   private
     FOK : boolean;
   public
-    function Execute(Structure : TRafaMealyMachine) : boolean;
+    function Execute(Structure : TRafaMooreMachine) : boolean;
   end;
 
 var
@@ -77,13 +77,13 @@ procedure TFmMMDialVar.Button4Click(Sender: TObject);
      ListBox2.Items[ListBox2.ItemIndex] := Edit1.Text;
   end;
 
-function TFmMMDialVar.Execute(Structure : TRafaMealyMachine) : boolean;
+function TFmMMDialVar.Execute(Structure : TRafaMooreMachine) : boolean;
   begin
   FOK := false;
   ShowModal;
   if FOK and (Structure <> nil) then
      begin
-     Structure.LoadFromVariables(ListBox1.Items, ListBox2.Items);
+     Structure.LoadFromVariables(ListBox1.Items, ListBox2.Items, TStringList.new);
      result := true;
      end
   else

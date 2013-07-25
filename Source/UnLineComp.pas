@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, Impstringgrid, StdCtrls, JvExStdCtrls, JvEdit,
-  JvValidateEdit;
+  Dialogs, Grids, Impstringgrid, StdCtrls;
 
 type TLineSelectionType = (STMin, STMax, StAll, STNone);
 
@@ -31,8 +30,8 @@ type
     ComboBox1: TComboBox;
     Label1: TLabel;
     Label2: TLabel;
-    JvValidateEdit1: TJvValidateEdit;
     Label3: TLabel;
+    Edit1: TEdit;
     procedure Button1Click(Sender: TObject);
   private
     FNumberOfLines : integer;
@@ -266,10 +265,10 @@ procedure TFmLineComp.Button1Click(Sender: TObject);
   SetLength(XArOut, 1);
   XArOut[0] := 0;
   case ComboBox1.ItemIndex of
-    0 :  Label3.Caption := InttoStr(SelectConflicted(JvValidateEdit1.Value, STMax, XArOut));
-    1 :  Label3.Caption := InttoStr(SelectConflicted(JvValidateEdit1.Value, STMin, XArOut));
-    2 :  Label3.Caption := InttoStr(SelectConflicted(JvValidateEdit1.Value, STAll, XArOut));
-    3 :  Label3.Caption := InttoStr(SelectConflicted(JvValidateEdit1.Value, STNone, XArOut));
+    0 :  Label3.Caption := InttoStr(SelectConflicted(StrToFloat(Edit1.Text), STMax, XArOut));
+    1 :  Label3.Caption := InttoStr(SelectConflicted(StrToFloat(Edit1.Text), STMin, XArOut));
+    2 :  Label3.Caption := InttoStr(SelectConflicted(StrToFloat(Edit1.Text), STAll, XArOut));
+    3 :  Label3.Caption := InttoStr(SelectConflicted(StrToFloat(Edit1.Text), STNone, XArOut));
     end;
   for i := 0 to FNumberOfLines - 1 do
     if FIsLineSelected[i] then

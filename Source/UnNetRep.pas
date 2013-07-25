@@ -962,7 +962,7 @@ type TNetworkRep = class
 
 implementation
 
-uses UnRafaAux2007, ADomCore;
+uses UnRafaAux2007, DkADomCore;
 
 {------------------------------------------------------------------------------}
 

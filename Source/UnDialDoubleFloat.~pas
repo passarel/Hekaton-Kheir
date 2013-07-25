@@ -11,7 +11,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, JvExStdCtrls, JvEdit, JvValidateEdit;
+  Dialogs, StdCtrls;
 
 //------------------------------------------------------------------------------------------------
 
@@ -19,10 +19,10 @@ type
   TFmDoubleFloat = class(TForm)
     Button1: TButton;
     Button2: TButton;
-    JvValidateEdit2: TJvValidateEdit;
-    JvValidateEdit1: TJvValidateEdit;
     Label1: TLabel;
     Label2: TLabel;
+    Edit1: TEdit;
+    Edit2: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
   private
@@ -68,13 +68,13 @@ procedure TFmDoubleFloat.Button1Click(Sender: TObject);
 function TFmDoubleFloat.Execute(var DoubleValue1 : double; var DoubleValue2 : double) : boolean;
   begin
   FOK := false;
-  JvValidateEdit1.value := DoubleValue1;
-  JvValidateEdit2.value := DoubleValue2;
+  Edit1.text := Floattostr(DoubleValue1);
+  Edit2.text := Floattostr(DoubleValue2);
   ShowModal;
   if FOK then
      begin
-     DoubleValue1 := JvValidateEdit1.value;
-     DoubleValue2 := JvValidateEdit2.value;
+     DoubleValue1 := StrToFloat(Edit1.Text);
+     DoubleValue2 := StrToFloat(Edit2.Text);
      end;
   result := FOK;
   end;

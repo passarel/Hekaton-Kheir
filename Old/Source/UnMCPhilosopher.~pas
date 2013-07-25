@@ -1,0 +1,629 @@
+unit UnMCPhilosopher;
+
+//------------------------------------------------------------------------------------------------
+
+interface
+
+uses UnNetBehaviour, SysUtils, Classes, grids;
+
+//------------------------------------------------------------------------------------------------
+
+type TPhilosopher = class
+  private
+    FNetwork : TRafaAnn;
+
+    //Array of properties : the first FInputCount values represent the antecedent, and the
+    //first FOutputCount values represent the consequent, according to some notation **??**
+    //Antecedent notation:
+    //   < 0: antecedent must be false (negative) -
+    //   0: doesn't matter
+    //   > 0 : antecedent must be true (positive)
+    //   Greater absolute values (<= 100) indicates a greater probability of the system to select
+    //   the value, in the case of random inputs
+    //Consequent notation:
+    //  -3: consequent must be always false in the future
+    //  -2: consequent must be false on the same time point
+    //  -1: consequent must be false some time in the future
+    //   0: consequent not related with the antecedent
+    //   1: consequent must be true some time in the future
+    //   2: consequent must be true on the same time point
+    //   3: consequent must be always true in the future
+    FSpecProperties : array of array of integer;
+
+    //Number of properties
+    FPropertiesCount : integer;
+
+    //Number of inputs to the network
+    FInputCount : integer;
+
+    //Data applied to input
+    FInputData : array of double;
+
+    //Data on the output
+    FOutputData : array of double;
+
+    //Data stored after each execution, to be applied to the output (Is this really necessary?)
+    ///    FLastOutputValues : array of double;
+
+    //Number of Outputs associated to an input
+    FExtraInputsCount : integer;
+
+
+    //Input to apply the data obteined at output
+    FInputReference : array of integer;
+
+    //Array to keep information about the diamond (sometimes) operator over the output atoms
+    FBoxData : array of double;
+
+    //Array to keep information about the box operator (always) over the output atoms
+    FDiamData : array of double;
+
+    //Stores how many output groups are in the agent
+    FOutputGroupCount : integer;
+
+    //Array keeping the information about which group the output belongs
+    FOutputGroups : array of double;
+
+    //Number of outputs of the network
+    FOutputCount : integer;
+
+    //Current property to be considered in a learning / validation procedure
+    FCurrentProp : integer;
+
+    //Effect of the antecedent in the selection of the random inputs
+    FPropertyInputEffect : double;
+
+    //Array of integerto store extra information about the agent
+    FExtraInfo : array of integer;
+
+    //Accessor to the SpecProperty
+    function GetSpecProperty(i, j : integer) : integer;
+
+    //Mutator to the SpecProperty
+    procedure SetSpecProperty(i, j : integer; value : integer);
+
+    //Accessor to CurrentProperty
+    function GetCurrentProperty : integer;
+
+    //Mutator to CurrentProperty
+    procedure SetCurrentProperty(value : integer);
+
+    function DiamondIncrease(value : double) : double;
+
+    function DiamondDecrease(value, output : double) : double;
+
+    procedure ProcessOutputGroup(group, size : integer; arInput : array of double; out arOutput : array of double);
+
+    //Accessor to ExtraInfo
+    function GetExtraInfo(index : integer) : integer;
+
+    //Mutator to ExtraInfo
+    procedure SetExtraInfo(index : integer; value : integer);
+
+  public
+    constructor Create(Arq : TFileName); overload;
+
+    constructor Create(Arq : TFileName; Groups : array of integer); overload;
+
+    destructor Destroy; override;
+
+    function AddProperty(prop : array of integer) : integer;
+
+    property SpecProperty[i, j : integer] : integer read GetSpecProperty write SetSpecProperty;
+
+    property CurrentProperty : integer read GetCurrentProperty write SetCurrentProperty;
+
+    property ExtraInfo[index : integer] : integer read GetExtraInfo write SetExtraInfo;
+
+    function InputData (input : array of double; out output : array of double; results : TStringList) : integer;
+
+    procedure Supervise(output : array of double);
+
+    procedure SuperviseByProperty;
+
+    procedure ApplyReward(reward : double);
+
+    procedure GetGrid(XGrid : TStringGrid);
+
+    function  GetPropertyCount : integer;
+
+    function  GetInputCount : integer;
+
+    function  GetOutputCount : integer;
+
+    procedure ResetNetwork(InitializeWeights : boolean = true);
+
+    //Assigns the last inputs of a network to receive recurrently the past values from outputs in a group
+    //@param(group : integer representing the group to be assigned to the n last neurons, where n is the number of outputs in this group).
+    function  ReferenceInputAsGroup(Group : integer) : integer;
+
+//    procedure Reinforce(reinf : double);
+
+
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+implementation
+
+//------------------------------------------------------------------------------------------------
+
+{ TPhilosopher }
+
+//------------------------------------------------------------------------------------------------
+
+//here is the main question:
+//which changes I will actually implement in this procedure????
+
+//sated -> drop fork:
+// If the input sated was true, then the output dropforks should also be true, else, nevermind
+
+//hungry -> sometimes eat
+// If the input hungry is true, then the output ead should, some time in the future, also be true
+
+//hungry -> sometimes pick fork...
+
+//hungry -> ???
+
+
+//One idea might be: for each output, define if the value:
+// - Should be forever true
+// - Should be true
+// - Should be sometimes true
+// - Never mind
+// - Should be sometimes false
+// - Should be false
+// - Should be always false
+
+//------------------------------------------------------------------------------------------------
+
+uses Math, UnNetRep, UnFunctions;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.AddProperty(prop: array of integer): integer;
+  var
+    i : integer;
+    b : boolean;
+  begin
+  b := (Length(prop) = (FInputCount + FOutputCount));
+  i := 0;
+  while b and (i < FInputCount) do
+    begin
+    b := (prop[i] >= -1) and (prop[i] <= 1);
+    i := i + 1;
+    end;
+  while b and (i < FInputCount + FOutputCount) do
+    begin
+    b := (prop[i] >= -3) and (prop[i] <= 3);
+    i := i + 1;
+    end;
+  if b then
+    begin
+    FPropertiesCount := FPropertiesCount + 1;
+    SetLength(FSPecProperties, FPropertiesCount, FInputCount + FOutputCount);
+    for i := 0 to FInputCount + FOutputCount - 1 do
+      FSpecProperties[FPropertiesCount - 1, i] := prop[i];
+    result := FPropertiesCount;
+    end
+  else if length(prop) = 0 then
+    begin
+    FPropertiesCount := FPropertiesCount + 1;
+    SetLength(FSPecProperties, FPropertiesCount, FInputCount + FOutputCount);
+    for i := 0 to FInputCount + FOutputCount - 1 do
+      FSpecProperties[FPropertiesCount - 1, i] := 0;
+    result := FPropertiesCount;
+    end
+  else
+    result := -1
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.ApplyReward(reward: double);
+  var i : integer;
+  begin
+  for i := 0 to FOutputCount - 1 do
+    if FOutputGroups[i] >= 0 then
+       FOutputData[i] := FOutputData[i] * sign(reward);
+  FNetwork.changeEta(abs(reward));
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+constructor TPhilosopher.Create(Arq: TFileName);
+  var
+    x : TNetworkRep;
+    i : integer;
+  begin
+  x := TNetworkRep.Create(nil, nil);
+  x.LoadFromXML(Arq);
+  FNetwork := TRafaAnn.Create;
+  FNetwork.AddRealFunction(logsig, logsig_linha);
+  FNetwork.AddRealFunction(tansig, tansig_linha);
+  FNetwork.AddRealFunction(BiLogsig, BiLogsig_linha);
+  FNetwork.AddRealFunction(Threshold, Threshold_Linha);
+  FNetwork.AddRealFunction(BiThreshold, BiThreshold_Linha);
+  FNetwork.AddRealFunction(Linear, Linear_Linha);
+  FNetwork.AddRealFunction(CrazyA, CrazyA_Linha);
+  FNetwork.LoadDescription(x);
+//  FNetwork.SetMode(NmTraining); //**** is this necessary????
+//  FNetwork.ResetNetwork;
+
+  FInputCount := x.GetInputCount;
+  FOutputCount := x.GetOutputCount;
+  SetLength(FInputData, FInputCount);
+  SetLength(FOutputData, FOutputCount);
+  SetLength(FBoxData, FOutputCount);
+  SetLength(FDiamData, FOutputCount);
+  SetLength(FOutputGroups, FOutputCount);
+  FCurrentProp := -1;
+  FPropertiesCount := 0;
+  FPropertyInputEffect := 0;
+  SetLength(FExtrainfo, 2);
+  FExtraInfo[0] := 0;
+  FExtraInfo[1] := 0;
+///  SetLength(FLastOutputValues, FOutputCount);
+  SetLength(FInputReference, FOutputCount);
+  FExtraInputsCount := 0;
+  for i := 0 to FOutputCount - 1 do
+    begin
+    FOutputGroups[i] := -1;
+    FInputReference[i] := -1;
+    FOutputData[i] := -1;
+    end;
+  FOutputGroupCount := 0;
+
+  x.free;
+
+  randomize;
+
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+constructor TPhilosopher.Create(Arq: TFileName; Groups : array of integer);
+  var i, j : integer;
+  begin
+  Create(Arq);
+  j := min(length(groups), FOutputCount);
+  for i := 0 to j - 1 do
+    begin
+    FOutputGroups[i] := Groups[i];
+    if Groups[i] > FOutputGroupCount then
+       FOutputGroupCount := Groups[i] + 1;
+    end;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+destructor TPhilosopher.Destroy;
+  begin
+  FNetwork.Free;
+  inherited;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.DiamondDecrease(value, output: double): double;
+  begin
+  if abs(output) > 0.5 then
+     result := 0
+  else
+     result := value;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.DiamondIncrease(value: double): double;
+  begin
+  if abs(value) > 0.1 then
+     result := ((abs(value) + 1) / 2) * sign(value)
+  else
+     result := value;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.GetCurrentProperty: integer;
+  begin
+  result := FCurrentProp;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.GetExtraInfo(index : integer): integer;
+  begin
+  if (index >= 0) and (index < length(FExtraInfo)) then
+     result := FExtraInfo[index]
+  else
+     result := 0;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.GetGrid(XGrid: TStringGrid);
+  var i, j : integer;
+  begin
+  if FPropertiesCount <= 0 then
+     begin
+     XGrid.RowCount := 1;
+     XGrid.ColCount := FInputCount + FOutputCount + 2;
+     for j := 0 to XGrid.ColCount - 1 do
+       XGrid.Cells[j, 0] := '';
+     end
+  else
+     begin
+     XGrid.RowCount := FPropertiesCount;
+     XGrid.ColCount := FInputCount + FOutputCount + 2;
+     for i := 0 to FPropertiesCount - 1 do
+       begin
+       XGrid.Cells[0, i] := inttostr(i + 1);
+       for j := 0 to FInputCount - 1 do
+         XGrid.Cells[j + 1, i] := inttostr(SpecProperty[i, j]);
+       for j := 0 to FOutputCount - 1 do
+         XGrid.Cells[j + FInputCount + 2, i] := inttostr(SpecProperty[i, j + FInputCount]);
+       end;
+     end;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.GetInputCount: integer;
+  begin
+  result := FInputCount;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.GetOutputCount: integer;
+  begin
+  result := FOutputCount;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.GetPropertyCount: integer;
+  begin
+  result := FPropertiesCount;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.GetSpecProperty(i, j: integer): integer;
+  begin
+  if (i >= 0) and (i < FPropertiesCount) and (j >= 0) and (j < FInputCount + FOutputCount) then
+    result := FSpecProperties[i, j]
+  else
+    result := -200;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.InputData(input: array of double; out output: array of double; results : TStringList) : integer;
+  var
+    i, j, k : integer;
+    XProb : double;
+    XtmpArray1, XtmpArray2 : array of double;
+    s : string;
+    XResultValue : integer;
+  begin
+  XResultValue := 0;
+  for i := 0 to FInputCount - 1 do
+    if (i < length(input)) and (input[i] <> 0) then
+       FInputData[i] := input[i]
+    else
+       begin
+       XResultValue := XResultValue * 2;
+       if (FCurrentProp >= 0) and (FPropertiesCount > 0) then
+          XProb := ((FSpecProperties[FCurrentProp, i] / 100) + 1) / 2
+       else
+          XProb := 0.5;
+       if random < XProb then
+          begin
+          FInputData[i] := 1;
+          XResultValue := XResultValue + 1;
+          end
+       else
+          FInputData[i] := -1;
+       end;
+
+
+  For i := 0 to FOutputCount - 1 do
+    if FInputReference[i] >= 0 then
+       FInputData[FInputReference[i]] := FOutputData[i];
+
+  FNetwork.ApplyInputArray(FInputData, FInputCount + FExtraInputsCount);
+  FNetwork.GetOutputArray(FOutputData, FOutputCount);
+
+  s := '';
+  for i := 0 to FInputCount - 1 do
+    s := s + floattostr(FInputData[i]) + ' ';
+  for i := 0 to FOutputCount - 2 do
+    s := s + floattostr(FOutputData[i]) + ' ';
+  s := s + floattostr(FOutputData[FOutputCount - 1]);
+  if results <> nil then
+     results.add(s);
+
+  for j := 0 to FOutputGroupCount - 1 do
+    begin
+    k := 0;
+    for i := 0 to FOutputCount - 1 do
+      if FOutputGroups[i] = j then
+         begin
+         k := k + 1;
+         SetLength(xTmpArray1, k);
+         xTmpArray1[k - 1] := FOutputData[i];
+         end;
+    SetLength(XTmpArray2, k);
+    ProcessOutputGroup(j, k, XtmpArray1, XTmpArray2);
+    for i := FOutputCount - 1 downto 0 do
+      if FOutputGroups[i] = j then
+         begin
+         k := k - 1;
+         FOutputData[i] := XTmpArray2[k];
+         end;
+    end;
+
+  if (length(output) = FOutputCount) then
+     for i := 0 to FOutputCount - 1 do
+       output[i] := FOutputData[i];
+
+  result := XResultValue;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.ProcessOutputGroup(group, size: integer; arInput: array of double;
+    out arOutput: array of double);
+  var
+    i, XSelAction : integer;
+    XNoAction : boolean;
+    XMax, XTotal, XTempRnd : double;
+
+  begin
+  //Defined only for the case of groups where the total of selected values should be, at most, one
+  XTotal := 0;
+  XNoAction := true;
+  XMax := -1;
+  for i := 0 to size - 1 do
+    begin
+    arOutput[i] := -1;
+    XTotal := XTotal + ((ArInput[i] + 1) / 2);
+//    XNoAction := (abs(ArInput[i] - XMax) < 0.25);
+
+    XNoAction := XNoAction and (ArInput[i] < -0.5);
+    if ArInput[i] > XMax then
+       XMax := ArInput[i];
+    end;
+
+
+
+  //Define XSelAction
+  XTempRnd := random * XTotal;
+  XSelAction := -1;
+  while XTempRnd > 0 do
+    begin
+    XTempRnd := XTempRnd - ArInput[XSelAction];
+    XSelAction := XSelAction + 1;
+    end;
+
+  //Define Output
+  if not XNoAction then
+     arOutput[XSelAction] := 1;
+
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+function TPhilosopher.ReferenceInputAsGroup(Group: integer): integer;
+  var i, j, XTotal : integer;
+  begin
+  j := FInputCount - 1;
+  XTotal := -1;
+  if (group >= 0) and (group < FOutputGroupCount) then
+     begin
+     XTotal := 0;
+     for i := FOutputCount - 1 downto 0 do
+       if FOutputGroups[i] = group then
+          begin
+          FInputReference[i] := j;
+          j := j - 1;
+          XTotal := XTotal + 1;
+          FExtraInputsCount := FExtraInputsCount + 1;
+          end;
+     FInputCount := FInputCount - XTotal;
+     end;
+  result := XTotal;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.ResetNetwork(InitializeWeights : boolean = true);
+  begin
+  FNetwork.ResetNetwork(InitializeWeights);
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.SetCurrentProperty(value: integer);
+  begin
+  FCurrentProp := value;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.SetExtraInfo(index : integer; value: integer);
+  begin
+  if (index >= 0) and (index < length(FExtraInfo)) then
+     FExtraInfo[index] := value;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.SetSpecProperty(i, j, value: integer);
+  begin
+  if (i >= 0) and (i < FPropertiesCount) and (j >= 0) and (j < FInputCount + FOutputCount) then
+     FSpecProperties[i, j] := value;
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.Supervise(output: array of double);
+  begin
+  FNetwork.ApplyOutputArray(output, FOutputCount);
+  end;
+
+//------------------------------------------------------------------------------------------------
+
+procedure TPhilosopher.SuperviseByProperty;
+  var
+    XFits : boolean;
+    i, XSignal, XOperator : integer;
+  begin
+  if (FCurrentProp >= 0) and (FPropertiesCount > 0) then
+     begin
+     XFits := true;
+     i := 0;
+     while XFits and (i < FInputCount) do
+       begin
+       XFits := (FInputData[i] >= 0) and (FSpecProperties[FCurrentProp, i] >= 0);
+       XFits := XFits or ((FInputData[i] <= 0) and (FSpecProperties[FCurrentProp, i] <= 0));
+       i := i + 1;
+       end;
+
+     for i := 0 to FOutputCount - 1 do
+       begin
+       XSignal := sign(FSpecProperties[FCurrentProp, i + FInputCount]);
+       XOperator := abs(FSpecProperties[FCurrentProp, i + FInputCount]);
+       case XOperator of
+         1:
+           begin
+           if XFits then
+              FDiamData[i] := XSignal * 0.5;
+           FDiamData[i] := DiamondIncrease(FDiamData[i]);
+           if (abs(FOutputData[i]) < abs(FDiamData[i])) or ((FOutputData[i] * FDiamData[i]) < 0) then
+              FOutputData[i] := FDiamData[i]
+           else
+              FDiamData[i] := DiamondDecrease(FDiamData[i], FOutputData[i]);
+           end;
+         2:
+           begin
+           if XFits then
+              FOutputData[i] := XSignal;
+           end;
+         3:
+           begin
+           if XFits then
+              FBoxData[i] := XSignal;
+           if FBoxData[i] <> 0 then
+              FOutputData[i] := FBoxData[i];
+           end;
+         end;
+       end;
+
+     FNetwork.ApplyOutputArray(FOutputData, FOutputCount);
+     end;
+  end;
+
+end.

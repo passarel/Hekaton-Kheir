@@ -10,8 +10,7 @@ unit UnChVis;
 interface
 
 uses
-  Chart, Classes, Controls, Dialogs, ExtCtrls, Forms, Graphics, Grids,
-  JvEdit, JvExStdCtrls, JvValidateEdit, Menus, Messages, Series, StdCtrls,
+  Chart, Classes, Controls, Dialogs, ExtCtrls, Forms, Graphics, Grids, Menus, Messages, Series, StdCtrls,
   SysUtils, TeEngine, TeeProcs, Variants, Windows;
 
 //-------------------------------------------------------------------------------------------------
@@ -27,10 +26,10 @@ type
     Close1: TMenuItem;
     ColorDialog1: TColorDialog;
     Edit1: TEdit;
-    JvValidateEdit1: TJvValidateEdit;
-    JvValidateEdit2: TJvValidateEdit;
-    JvValidateEdit3: TJvValidateEdit;
-    JvValidateEdit4: TJvValidateEdit;
+    //JvValidateEdit1: TJvValidateEdit;
+    //JvValidateEdit2: TJvValidateEdit;
+    //JvValidateEdit3: TJvValidateEdit;
+    //JvValidateEdit4: TJvValidateEdit;
     Label2: TLabel;
     MainMenu1: TMainMenu;
     N1: TMenuItem;
@@ -55,10 +54,10 @@ type
     procedure CheckBox3Click(Sender: TObject);
     procedure Close1Click(Sender: TObject);
     procedure Edit1Change(Sender: TObject);
-    procedure JvValidateEdit1Exit(Sender: TObject);
-    procedure JvValidateEdit2Exit(Sender: TObject);
-    procedure JvValidateEdit3Exit(Sender: TObject);
-    procedure JvValidateEdit4Exit(Sender: TObject);
+//    procedure JvValidateEdit1Exit(Sender: TObject);
+//    procedure JvValidateEdit2Exit(Sender: TObject);
+//    procedure JvValidateEdit3Exit(Sender: TObject);
+//    procedure JvValidateEdit4Exit(Sender: TObject);
     procedure Panel3Click(Sender: TObject);
     procedure SaveasEMF1Click(Sender: TObject);
     procedure SaveasJPEG1Click(Sender: TObject);
@@ -325,35 +324,35 @@ procedure TFmChVis.Execute;
 
 //-------------------------------------------------------------------------------------------------
 
-procedure TFmChVis.JvValidateEdit1Exit(Sender: TObject);
+{procedure TFmChVis.JvValidateEdit1Exit(Sender: TObject);
   begin
   Chart1.LeftAxis.AutomaticMinimum := false;
   Chart1.LeftAxis.Minimum := JvValidateEdit1.Value;
-  end;
+  end;}
 
 //-------------------------------------------------------------------------------------------------
 
-procedure TFmChVis.JvValidateEdit2Exit(Sender: TObject);
+{procedure TFmChVis.JvValidateEdit2Exit(Sender: TObject);
   begin
   Chart1.LeftAxis.AutomaticMaximum := false;
   Chart1.LeftAxis.Maximum := JvValidateEdit2.Value;
-  end;
+  end;}
 
 //-------------------------------------------------------------------------------------------------
 
-procedure TFmChVis.JvValidateEdit3Exit(Sender: TObject);
+{procedure TFmChVis.JvValidateEdit3Exit(Sender: TObject);
   begin
   Chart1.BottomAxis.AutomaticMinimum := false;
   Chart1.BottomAxis.Minimum := JvValidateEdit3.Value;
-  end;
+  end;}
 
 //-------------------------------------------------------------------------------------------------
 
-procedure TFmChVis.JvValidateEdit4Exit(Sender: TObject);
+{procedure TFmChVis.JvValidateEdit4Exit(Sender: TObject);
   begin
   Chart1.BottomAxis.AutomaticMaximum := false;
   Chart1.BottomAxis.Maximum := JvValidateEdit4.Value;
-  end;
+  end;}
 
 //-------------------------------------------------------------------------------------------------
 
@@ -453,5 +452,53 @@ procedure TFmChVis.ShowRightBar1Click(Sender: TObject);
   end;
 
 //-------------------------------------------------------------------------------------------------
+
+
+{     object JvValidateEdit1: TJvValidateEdit
+        Left = 32
+        Top = 88
+        Width = 57
+        Height = 21
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloatGeneral
+        DecimalPlaces = 4
+        TabOrder = 3
+      end
+      object JvValidateEdit2: TJvValidateEdit
+        Left = 32
+        Top = 120
+        Width = 57
+        Height = 21
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloatGeneral
+        DecimalPlaces = 4
+        TabOrder = 4
+      end
+      object JvValidateEdit3: TJvValidateEdit
+        Left = 120
+        Top = 88
+        Width = 57
+        Height = 21
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloatGeneral
+        DecimalPlaces = 4
+        TabOrder = 5
+        OnExit = JvValidateEdit3Exit
+      end
+      object JvValidateEdit4: TJvValidateEdit
+        Left = 120
+        Top = 120
+        Width = 57
+        Height = 21
+        CriticalPoints.MaxValueIncluded = False
+        CriticalPoints.MinValueIncluded = False
+        DisplayFormat = dfFloatGeneral
+        DecimalPlaces = 4
+        TabOrder = 6
+        OnExit = JvValidateEdit4Exit
+      end}
 
 end.

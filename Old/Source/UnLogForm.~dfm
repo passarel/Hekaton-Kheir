@@ -1,0 +1,73 @@
+object FmLogic: TFmLogic
+  Left = 254
+  Top = 60
+  Width = 812
+  Height = 573
+  Caption = 'Logic Programming'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  OnCloseQuery = FormCloseQuery
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Memo1: TMemo
+    Left = 0
+    Top = 0
+    Width = 804
+    Height = 519
+    Align = alClient
+    TabOrder = 0
+    OnChange = Memo1Change
+  end
+  object MainMenu1: TMainMenu
+    Left = 736
+    Top = 48
+    object Arquivo1: TMenuItem
+      Caption = '&File'
+      object Novo1: TMenuItem
+        Caption = '&New'
+        OnClick = Novo1Click
+      end
+      object Abrir1: TMenuItem
+        Caption = '&Open...'
+        OnClick = Abrir1Click
+      end
+      object Salvar1: TMenuItem
+        Caption = '&Save...'
+        OnClick = Salvar1Click
+      end
+      object Sair1: TMenuItem
+        Caption = '&Exit'
+        OnClick = Sair1Click
+      end
+    end
+    object Executar1: TMenuItem
+      Caption = '&Generate Network'
+      OnClick = Executar1Click
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = '.plg'
+    Filter = 
+      'Logic Programs (*.plg)|*.plg|Arquivos de texto (*.txt)|*.txt|Tod' +
+      'os os arquivos (*.*)|*.*'
+    Title = 'Abrir c'#243'digo'
+    Left = 248
+    Top = 56
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.plg'
+    Filter = 
+      'Logic Programs (*.plg)|*.plg|Arquivos de texto (*.txt)|*.txt|Tod' +
+      'os os arquivos (*.*)|*.*'
+    Title = 'Salvar c'#243'digo'
+    Left = 448
+    Top = 48
+  end
+end

@@ -1,10 +1,10 @@
 object FmFileConf: TFmFileConf
-  Left = 249
-  Top = 175
+  Left = 0
+  Top = 132
   BorderStyle = bsDialog
   Caption = 'Data File Editor'
   ClientHeight = 568
-  ClientWidth = 773
+  ClientWidth = 752
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

@@ -1,0 +1,181 @@
+unit UnNetVisual;
+
+//---------------------------------------------------------------------------------------------
+
+interface
+
+uses UnNetRep, UnRafaVisual, ExtCtrls, Classes;
+
+type TNetRepVisual = class
+  private
+    FNetRep : TNetworkRep;
+    FNetVisual : TRafaVisualConteiner;
+    FBeingUpdated : boolean;
+    FOnVisualChange : TRafaVisualEvent;
+
+    procedure DefaultEvent(index : integer);
+    procedure VisualItemEvent(index : integer);
+    procedure VisualConnectionEvent(index : integer);
+    function  GetNetRep : TNetworkRep;
+    function  GetNetVisual : TRafaVisualConteiner;
+
+
+
+  public
+    constructor Create(Background : TImage); overload;
+    constructor Create(Background : TImage; NodesList, ArcsList : TStrings); overload;
+    destructor  Destroy; override;
+
+    property NetRep : TNetworkRep read GetNetRep;
+    property NetVisual : TRafaVisualConteiner read GetNetVisual;
+
+    procedure UpdateVisual;
+
+    property OnVisualChange : TRafaVisualEvent read FOnVisualChange write FOnVisualChange;
+
+  end;
+
+
+
+//---------------------------------------------------------------------------------------------
+
+implementation
+
+uses SysUtils;
+
+//---------------------------------------------------------------------------------------------
+
+{ TNetRepVisual }
+
+//---------------------------------------------------------------------------------------------
+
+constructor TNetRepVisual.Create(Background : TImage);
+  begin
+  FNetRep := TNetworkRep.Create(nil, nil);
+  FNetVisual := TRafaVisualConteiner.Create(BackGround);
+  FNetVisual.AddImage('img\input.bmp');
+  FNetVisual.AddImage('img\output.bmp');
+  FNetVisual.AddImage('img\neuron.bmp');
+  FNetVisual.AddImage('img\clock.bmp');
+  FNetVisual.AddImage('img\link.bmp');
+
+  FNetVisual.OnItemEvent := VisualItemEvent;
+  FNetVisual.OnConnectionEvent := VisualConnectionEvent;
+  FBeingUpdated := false;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+constructor TNetRepVisual.Create(Background : TImage; NodesList, ArcsList : TStrings);
+  begin
+  FNetRep := TNetworkRep.Create(NodesList, ArcsList, true);
+  FNetVisual := TRafaVisualConteiner.Create(BackGround);
+  FNetVisual.AddImage('img\input.bmp');
+  FNetVisual.AddImage('img\output.bmp');
+  FNetVisual.AddImage('img\neuron.bmp');
+  FNetVisual.AddImage('img\clock.bmp');
+  FNetVisual.AddImage('img\link.bmp');
+
+  FOnVisualChange := DefaultEvent;
+
+  FNetVisual.OnItemEvent := VisualItemEvent;
+  FNetVisual.OnConnectionEvent := VisualConnectionEvent;
+  FBeingUpdated := false;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure TNetRepVisual.DefaultEvent(index : integer);
+  begin
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+destructor  TNetRepVisual.Destroy;
+  begin
+  FNetRep.Free;
+  FNetVisual.Free;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+function  TNetRepVisual.GetNetRep : TNetworkRep;
+  begin
+  result := FNetRep;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+function    TNetRepVisual.GetNetVisual : TRafaVisualConteiner;
+  begin
+  result := FNetVisual;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure   TNetRepVisual.UpdateVisual;
+  var
+    i : integer;
+    XtmpSource, XtmpTarget: integer;
+  begin
+  FBeingUpdated := true;
+  FNetVisual.ClearConnections;
+  FNetVisual.ClearItems;
+  for i := 0 to FNetRep.NoNodes - 1 do
+    begin
+    FNetVisual.AddItem(integer(FNetRep.Node[i].kind), i);
+    FNetVisual.Item[i].CenterX := FNetRep.Node[i].X;
+    FNetVisual.Item[i].CenterY := FNetRep.Node[i].Y;
+    end;
+  for i := 0 to FNetRep.NoArcs - 1 do
+    begin
+    FNetVisual.AddConnection(FNetRep.Arc[i].Source, FNetRep.Arc[i].Target);
+    end;
+  FBeingUpdated := false;
+  FNetVisual.Repaint;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure TNetRepVisual.VisualConnectionEvent(index : integer);
+  begin
+  if not FBeingUpdated then
+     begin
+     if index < 0 then
+        FNetRep.DeleteArc((-index) - 1)
+     else if index < FNetRep.NoArcs then
+        begin
+        FNetRep.Arc[index].Source := FNetVisual.Connection[index].Source;
+        FNetRep.Arc[index].Target := FNetVisual.Connection[index].Target;
+        end
+     else
+        FNetRep.AddArc(FNetVisual.Connection[index].Source, FNetVisual.Connection[index].Target);
+     end;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+procedure TNetRepVisual.VisualItemEvent(index : integer);
+  begin
+  if not FBeingUpdated then
+     begin
+     if index < 0 then
+        FNetRep.DeleteNode((-index) - 1)
+     else if index < FNetRep.NoNodes then
+        begin
+        FNetRep.Node[index].X := FNetVisual.Item[index].CenterX;
+        FNetRep.Node[index].Y := FNetVisual.Item[index].CenterY;
+        end
+     else
+        begin
+        FNetRep.AddNode('Node_' + inttostr(index), TUnitKind(FNetVisual.Item[index].Image));
+        FNetRep.Node[FNetRep.NoNodes - 1].X := FNetVisual.Item[index].CenterX;
+        FNetRep.Node[FNetRep.NoNodes - 1].Y := FNetVisual.Item[index].CenterY;
+        end;
+     FOnVisualChange(index);
+     end;
+  end;
+
+//---------------------------------------------------------------------------------------------
+
+end.

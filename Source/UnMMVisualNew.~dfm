@@ -1,6 +1,6 @@
 object FmMMMain: TFmMMMain
-  Left = 182
-  Top = 0
+  Left = 49
+  Top = 78
   Width = 982
   Height = 720
   Caption = 'FmMMMain'
@@ -37,6 +37,7 @@ object FmMMMain: TFmMMMain
     ParentColor = False
     ParentFont = False
     ParentShowHint = False
+    PopupMenu = PopupMenu1
     ShowGrid = False
     ShowHint = True
     TabOrder = 0
@@ -247,23 +248,19 @@ object FmMMMain: TFmMMMain
         TabOrder = 4
         OnClick = Button2Click
       end
-      object JvValidateEdit1: TJvValidateEdit
+      object JvValidateEdit1: TEdit
         Left = 48
         Top = 217
         Width = 49
         Height = 21
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
         TabOrder = 5
         OnExit = JvValidateEdit1Exit
       end
-      object JvValidateEdit2: TJvValidateEdit
+      object JvValidateEdit2: TEdit
         Left = 48
         Top = 249
         Width = 49
         Height = 21
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
         TabOrder = 6
         OnExit = JvValidateEdit2Exit
       end
@@ -360,13 +357,11 @@ object FmMMMain: TFmMMMain
         TabOrder = 3
         OnClick = ListBox8Click
       end
-      object JvValidateEdit3: TJvValidateEdit
+      object JvValidateEdit3: TEdit
         Left = 48
         Top = 225
         Width = 49
         Height = 21
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
         Enabled = False
         TabOrder = 4
         OnChange = JvValidateEdit3Change
@@ -402,7 +397,7 @@ object FmMMMain: TFmMMMain
     end
     object Panel5: TPanel
       Left = 1
-      Top = 225
+      Top = 425
       Width = 298
       Height = 32
       Align = alTop
@@ -545,23 +540,19 @@ object FmMMMain: TFmMMMain
         TabOrder = 3
         OnClick = Button20Click
       end
-      object JvValidateEdit6: TJvValidateEdit
+      object JvValidateEdit6: TEdit
         Left = 68
         Top = 40
         Width = 65
         Height = 21
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
         TabOrder = 4
         OnChange = JvValidateEdit6Change
       end
-      object JvValidateEdit7: TJvValidateEdit
+      object JvValidateEdit7: TEdit
         Left = 212
         Top = 40
         Width = 65
         Height = 21
-        CriticalPoints.MaxValueIncluded = False
-        CriticalPoints.MinValueIncluded = False
         TabOrder = 5
       end
       object SpinEdit1: TSpinEdit
@@ -825,22 +816,18 @@ object FmMMMain: TFmMMMain
           Height = 13
           Caption = 'Momentum'
         end
-        object JvValidateEdit4: TJvValidateEdit
+        object JvValidateEdit4: TEdit
           Left = 96
           Top = 20
           Width = 121
           Height = 21
-          CriticalPoints.MaxValueIncluded = False
-          CriticalPoints.MinValueIncluded = False
           TabOrder = 0
         end
-        object JvValidateEdit5: TJvValidateEdit
+        object JvValidateEdit5: TEdit
           Left = 96
           Top = 48
           Width = 121
           Height = 21
-          CriticalPoints.MaxValueIncluded = False
-          CriticalPoints.MinValueIncluded = False
           TabOrder = 1
         end
         object Button15: TButton
@@ -867,7 +854,7 @@ object FmMMMain: TFmMMMain
       Left = 1
       Top = 161
       Width = 298
-      Height = 32
+      Height = 232
       Align = alTop
       TabOrder = 6
       object Label25: TLabel
@@ -898,7 +885,7 @@ object FmMMMain: TFmMMMain
         TabOrder = 0
         OnClick = Button22Click
       end
-      object JvTreeView1: TJvTreeView
+      object JvTreeView1: TTreeView
         Left = 8
         Top = 40
         Width = 273
@@ -907,7 +894,6 @@ object FmMMMain: TFmMMMain
         ReadOnly = True
         TabOrder = 1
         OnClick = JvTreeView1Click
-        LineColor = 13160660
       end
       object Button23: TButton
         Left = 24
@@ -948,7 +934,7 @@ object FmMMMain: TFmMMMain
     end
     object Panel9: TPanel
       Left = 1
-      Top = 193
+      Top = 393
       Width = 298
       Height = 32
       Align = alTop
@@ -1034,6 +1020,14 @@ object FmMMMain: TFmMMMain
       object Save1: TMenuItem
         Caption = '&Save...'
         OnClick = Save1Click
+      end
+      object N1: TMenuItem
+        Caption = '-'
+      end
+      object HideLabels1: TMenuItem
+        AutoCheck = True
+        Caption = 'Hide Labels'
+        OnClick = HideLabels1Click
       end
     end
   end

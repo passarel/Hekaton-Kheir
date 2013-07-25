@@ -10,7 +10,7 @@ unit UnDialEdit; //556 lines
 interface
 
 uses Forms, Menus, StdCtrls, Controls, ComCtrls, Classes, UnNetRep, ExtCtrls, UnRafaVisual,
-  Spin, JvExStdCtrls, JvEdit, JvValidateEdit;
+  Spin;
 
 //------------------------------------------------------------------------------------------------
 
@@ -59,8 +59,6 @@ type TFmEdit = class(TForm)
     GroupBox7: TGroupBox;
     Inserir1: TMenuItem;
     Inserir2: TMenuItem;
-    JvValidateEdit1: TJvValidateEdit;
-    JvValidateEdit2: TJvValidateEdit;
     Label1: TLabel;
     Label10: TLabel;
     Label12: TLabel;
@@ -104,6 +102,8 @@ type TFmEdit = class(TForm)
     GroupBox5: TGroupBox;
     RadioGroup2: TRadioGroup;
     Button2: TButton;
+    Edit9: TEdit;
+    Edit11: TEdit;
     procedure Button10Click(Sender: TObject);
     procedure Button5Click(Sender: TObject);
     procedure Button6Click(Sender: TObject);
@@ -273,6 +273,7 @@ procedure TFmEdit.Button10Click(Sender: TObject);
   var i : integer;
   begin
   i := FNetRep.AddConnectedNeuron(1);
+  UpdateLayers;
   OnChangeVisualProperties(i);
   end;
 
@@ -343,7 +344,7 @@ procedure TFmEdit.Button6Click(Sender: TObject);
 
 procedure TFmEdit.Button7Click(Sender: TObject);
   begin
-  FNetRep.FullyConnect(JvValidateEdit1.value, JvValidateEdit2.value, CheckBox12.checked);
+  FNetRep.FullyConnect(StrToFloat(Edit9.Text), StrToFloat(Edit10.Text), CheckBox12.checked);
   OnChangeVisualProperties(-1);
   end;
 
@@ -362,6 +363,7 @@ procedure TFmEdit.Button9Click(Sender: TObject);
   var i : integer;
   begin
   i := FNetRep.AddConnectedOutputNeuron(true, FNetRep.LinkFlow <> LfNone);
+  UpdateLayers;
   OnChangeVisualProperties(i);
   end;
 

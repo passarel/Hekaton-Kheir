@@ -1,6 +1,6 @@
 object FmMMTransition: TFmMMTransition
-  Left = 663
-  Top = 175
+  Left = 829
+  Top = 233
   Width = 206
   Height = 306
   Caption = 'Add transition...'
@@ -85,21 +85,20 @@ object FmMMTransition: TFmMMTransition
     TabOrder = 4
     OnClick = Button2Click
   end
-  object JvValidateEdit1: TJvValidateEdit
-    Left = 8
-    Top = 168
-    Width = 169
-    Height = 21
-    CriticalPoints.MaxValueIncluded = False
-    CriticalPoints.MinValueIncluded = False
-    TabOrder = 5
-  end
   object ComboBox3: TComboBox
     Left = 5
     Top = 120
     Width = 177
     Height = 21
     ItemHeight = 13
+    TabOrder = 5
+  end
+  object Edit1: TEdit
+    Left = 8
+    Top = 168
+    Width = 161
+    Height = 21
     TabOrder = 6
+    Text = 'Edit1'
   end
 end

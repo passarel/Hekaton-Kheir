@@ -1,6 +1,6 @@
 object FmLineComp: TFmLineComp
-  Left = 197
-  Top = 110
+  Left = 193
+  Top = 131
   Width = 870
   Height = 640
   Caption = 'FmLineComp'
@@ -73,15 +73,13 @@ object FmLineComp: TFmLineComp
         'All'
         'None')
     end
-    object JvValidateEdit1: TJvValidateEdit
+    object Edit1: TEdit
       Left = 16
       Top = 104
-      Width = 145
+      Width = 121
       Height = 21
-      CriticalPoints.MaxValueIncluded = False
-      CriticalPoints.MinValueIncluded = False
-      DisplayFormat = dfFloat
       TabOrder = 2
+      Text = 'Edit1'
     end
   end
 end

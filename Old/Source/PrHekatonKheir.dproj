@@ -1,0 +1,235 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{AFE175E9-93EE-414F-97C4-34E8AC648841}</ProjectGuid>
+        <MainSource>PrHekatonKheir.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>14.6</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;VclTee;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>2057</VerInfo_Locale>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_UNSAFE_TYPE>true</DCC_UNSAFE_TYPE>
+        <DCC_F>false</DCC_F>
+        <DCC_UNSAFE_CAST>true</DCC_UNSAFE_CAST>
+        <DCC_UsePackage>vcl;rtl;dbrtl;adortl;vcldb;vclx;bdertl;vcldbx;ibxpress;dsnap;cds;bdecds;qrpt;visualclx;visualdbclx;dsnapcrba;dsnapcon;VclSmp;vclshlctrls;vclie;xmlrtl;inet;inetdbbde;inetdbxpress;inetdb;nmfast;webdsnap;websnap;soaprtl;dbexpress;dbxcds;indy;dclOffice2k;Jcl;JclVcl;JvCoreD6R;JvSystemD6R;JvStdCtrlsD6R;JvAppFrmD6R;JvBandsD6R;JvDBD6R;JvDlgsD6R;JvBDED6R;JvCmpD6R;JvCryptD6R;JvCtrlsD6R;JvCustomD6R;JvDockingD6R;JvDotNetCtrlsD6R;JvEDID6R;JvGlobusD6R;JvHMID6R;JvInterpreterD6R;JvJansD6R;JvManagedThreadsD6R;JvMMD6R;JvNetD6R;JvPageCompsD6R;JvPluginD6R;JvPrintPreviewD6R;JvRuntimeDesignD6R;JvTimeFrameworkD6R;JvUIBD6R;JvValidatorsD6R;JvWizardD6R;JvXPCtrlsD6R;TeeUI76;Tee76;TeeDB76;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_ExeOutput>..\Bin</DCC_ExeOutput>
+        <DCC_N>true</DCC_N>
+        <DCC_UNSAFE_CODE>true</DCC_UNSAFE_CODE>
+        <VerInfo_Keys>FileVersion=1.0.0.0</VerInfo_Keys>
+        <DCC_K>false</DCC_K>
+        <DCC_E>false</DCC_E>
+        <DCC_S>false</DCC_S>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Icon_MainIcon>PrHekatonKheir_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Icon_MainIcon>PrHekatonKheir_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_DebugInformation>false</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <DCC_UnitSearchPath>C:\Users\Rafael\Documents\GitHub\jvcl\jvcl\lib\d17\win32;C:\Users\Rafael\Documents\GitHub\jcl\jcl\lib\d18\win32;C:\Users\Rafael\Documents\GitHub\jcl\jcl\lib\d18\win64;C:\Users\Rafael\Documents\GitHub\Adom_5_1\sources;C:\Users\Rafael\Documents\GitHub\Adom_5_1\Utilities\sources;C:\Users\Rafael\Documents\GitHub\ImpStringGrid;C:\Users\Rafael\Documents\GitHub\SimpleGraph;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="UnAbout.pas">
+            <Form>FmAbout</Form>
+        </DCCReference>
+        <DCCReference Include="UnChVis.pas">
+            <Form>FmChVis</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialChConf.pas">
+            <Form>FmChConf</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialColumn.pas">
+            <Form>FmColDial</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialCross.pas">
+            <Form>FmCross</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialDinPhil.pas">
+            <Form>FmPhil</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialDoubleFloat.pas">
+            <Form>FmDoubleFloat</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialEdit.pas">
+            <Form>FmEdit</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialFile.pas">
+            <Form>FmFileConf</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialMerge.pas">
+            <Form>FmMerge</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialNode.pas">
+            <Form>FmNode</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialTrEvol.pas">
+            <Form>FmTrEvol</Form>
+        </DCCReference>
+        <DCCReference Include="UnDialWizards.pas">
+            <Form>FmWizards</Form>
+        </DCCReference>
+        <DCCReference Include="UnFmMain.pas">
+            <Form>MainForm</Form>
+        </DCCReference>
+        <DCCReference Include="UnFmMuddyChildren.pas">
+            <Form>FmMuddyChildren</Form>
+        </DCCReference>
+        <DCCReference Include="UnFunct.pas">
+            <Form>FmFunct</Form>
+        </DCCReference>
+        <DCCReference Include="UnFunctions.pas"/>
+        <DCCReference Include="UnLogForm.pas">
+            <Form>FmLogic</Form>
+        </DCCReference>
+        <DCCReference Include="UnLogGen.pas"/>
+        <DCCReference Include="UnLogPars.pas"/>
+        <DCCReference Include="UnLogScan.pas"/>
+        <DCCReference Include="UnLogScanAut.pas"/>
+        <DCCReference Include="UnLogSing.pas"/>
+        <DCCReference Include="UnLogStruct.pas"/>
+        <DCCReference Include="UnMCDiningTable.pas"/>
+        <DCCReference Include="UnMCPhilosopher.pas"/>
+        <DCCReference Include="UnMCPrototype.pas">
+            <Form>Form2</Form>
+        </DCCReference>
+        <DCCReference Include="UnMMDialTransition.pas">
+            <Form>FmMMTransition</Form>
+        </DCCReference>
+        <DCCReference Include="UnMMDialVar.pas">
+            <Form>FmMMDialVar</Form>
+        </DCCReference>
+        <DCCReference Include="UnMMStructure.pas"/>
+        <DCCReference Include="UnMMVisualNew.pas">
+            <Form>FmMMMain</Form>
+        </DCCReference>
+        <DCCReference Include="UnNetBehaviour.pas"/>
+        <DCCReference Include="UnNetRep.pas"/>
+        <DCCReference Include="UnNetVisual.pas"/>
+        <DCCReference Include="UnPedagogical.pas">
+            <Form>FmPedagogical</Form>
+        </DCCReference>
+        <DCCReference Include="UnRafaAux2007.pas"/>
+        <DCCReference Include="UnRafaVisual.pas"/>
+        <DCCReference Include="UnResults.pas"/>
+        <DCCReference Include="UnWeightVis.pas">
+            <Form>FmWeightVis</Form>
+        </DCCReference>
+        <DCCReference Include="UnPhil.pas">
+            <Form>FmOldPhil</Form>
+        </DCCReference>
+        <DCCReference Include="UnLineComp.pas">
+            <Form>FmLineComp</Form>
+        </DCCReference>
+        <DCCReference Include="UnLabelInformation.pas"/>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">PrHekatonKheir.dpr</Source>
+                </Source>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">False</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">1</VersionInfo>
+                    <VersionInfo Name="MinorVer">0</VersionInfo>
+                    <VersionInfo Name="Release">0</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">2057</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys>
+                </VersionInfoKeys>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k180.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp180.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>

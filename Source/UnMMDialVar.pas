@@ -83,7 +83,7 @@ function TFmMMDialVar.Execute(Structure : TRafaMooreMachine) : boolean;
   ShowModal;
   if FOK and (Structure <> nil) then
      begin
-     Structure.LoadFromVariables(ListBox1.Items, ListBox2.Items);
+     Structure.LoadFromVariables(ListBox1.Items, ListBox2.Items, TStringList.Create);
      result := true;
      end
   else

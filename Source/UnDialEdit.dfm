@@ -1,6 +1,6 @@
 object FmEdit: TFmEdit
-  Left = 936
-  Top = 6
+  Left = 885
+  Top = 20
   BorderStyle = bsDialog
   Caption = 'Properties'
   ClientHeight = 685
@@ -154,33 +154,13 @@ object FmEdit: TFmEdit
           Caption = 'Fixed'
           TabOrder = 0
         end
-        object JvValidateEdit1: TJvValidateEdit
-          Left = 64
-          Top = 16
-          Width = 73
-          Height = 21
-          CriticalPoints.MaxValueIncluded = False
-          CriticalPoints.MinValueIncluded = False
-          DisplayFormat = dfFloat
-          TabOrder = 1
-        end
-        object JvValidateEdit2: TJvValidateEdit
-          Left = 64
-          Top = 48
-          Width = 73
-          Height = 21
-          CriticalPoints.MaxValueIncluded = False
-          CriticalPoints.MinValueIncluded = False
-          DisplayFormat = dfFloat
-          TabOrder = 2
-        end
         object Button7: TButton
           Left = 160
           Top = 40
           Width = 89
           Height = 25
           Caption = 'Add Connections'
-          TabOrder = 3
+          TabOrder = 1
           OnClick = Button7Click
         end
         object Button8: TButton
@@ -189,7 +169,7 @@ object FmEdit: TFmEdit
           Width = 73
           Height = 25
           Caption = 'Add Input'
-          TabOrder = 4
+          TabOrder = 2
           OnClick = Button8Click
         end
         object Button9: TButton
@@ -198,7 +178,7 @@ object FmEdit: TFmEdit
           Width = 73
           Height = 25
           Caption = 'Add Output'
-          TabOrder = 5
+          TabOrder = 3
           OnClick = Button9Click
         end
         object Button10: TButton
@@ -207,8 +187,24 @@ object FmEdit: TFmEdit
           Width = 73
           Height = 25
           Caption = 'Add Hidden'
-          TabOrder = 6
+          TabOrder = 4
           OnClick = Button10Click
+        end
+        object Edit9: TEdit
+          Left = 64
+          Top = 16
+          Width = 73
+          Height = 21
+          TabOrder = 5
+          Text = 'Edit9'
+        end
+        object Edit11: TEdit
+          Left = 64
+          Top = 48
+          Width = 73
+          Height = 21
+          TabOrder = 6
+          Text = 'Edit9'
         end
       end
       object Button1: TButton

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, UnMMStructure, StdCtrls, JvExStdCtrls, JvEdit, JvValidateEdit;
+  Dialogs, UnMMStructure, StdCtrls;
 
 type
   TFmMMTransition = class(TForm)
@@ -16,9 +16,9 @@ type
     Button1: TButton;
     Button2: TButton;
     Label3: TLabel;
-    JvValidateEdit1: TJvValidateEdit;
     ComboBox3: TComboBox;
     Label4: TLabel;
+    Edit1: TEdit;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
   private
@@ -72,7 +72,7 @@ function TFmMMTransition.Execute(Owner : TRafaMooreMachine; ListSt, ListIn : TSt
         XTmpTransition.SourceState := ArrSt[ComboBox1.ItemIndex];
         XTmpTransition.TargetState := ArrSt[ComboBox2.ItemIndex];
         XTmpTransition.Input       := ArrIn[ComboBox3.ItemIndex];
-        XTmpTransition.Goal := JvValidateEdit1.Value;
+        XTmpTransition.Goal := StrToInt(Edit1.text);
         if CheckBox1.Checked then
            begin
            XTmpTransition.Count  := random(20);

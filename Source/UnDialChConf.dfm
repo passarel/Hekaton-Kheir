@@ -1,6 +1,6 @@
 object FmChConf: TFmChConf
-  Left = 200
-  Top = 163
+  Left = 87
+  Top = 164
   Width = 719
   Height = 534
   Caption = 'FmChConf'

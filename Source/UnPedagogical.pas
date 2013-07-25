@@ -4,8 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, StdCtrls, ExtCtrls, Grids, ComCtrls, JvExStdCtrls,
-  JvEdit, JvValidateEdit;
+  Dialogs, Menus, StdCtrls, ExtCtrls, Grids, ComCtrls;
 
 type
   TFmPedagogical = class(TForm)
@@ -28,13 +27,13 @@ type
     GroupBox2: TGroupBox;
     Label3: TLabel;
     Label4: TLabel;
-    JvValidateEdit1: TJvValidateEdit;
-    JvValidateEdit2: TJvValidateEdit;
-    JvValidateEdit3: TJvValidateEdit;
     Label5: TLabel;
-    JvValidateEdit4: TJvValidateEdit;
     Label6: TLabel;
     ListBox1: TListBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit4: TEdit;
+    Edit3: TEdit;
     procedure PonderedView1Click(Sender: TObject);
     procedure LoadNetwork1Click(Sender: TObject);
     procedure TrackBar1Change(Sender: TObject);
@@ -105,8 +104,8 @@ procedure TFmPedagogical.LoadNetwork1Click(Sender: TObject);
         for i := 0 to FOutputCount - 1 do
           COmboBox1.Items.Add('Output ' + inttostr(i));
         if FOutputCount > 0 then COmboBox1.ItemIndex := 0;
-        min :=  double(JvValidateEdit1.Value);
-        max :=  double(JvValidateEdit2.Value);
+        min :=  StrToFloat(Edit1.Text);
+        max :=  StrToFloat(Edit2.Text);
         for i := 0 to XSize - 1 do
           begin
           GetDoubleArray(min, max, i, FInputCount, XInputs);
@@ -126,7 +125,7 @@ procedure TFmPedagogical.LoadNetwork1Click(Sender: TObject);
        begin
        FOtherRep[i] := THypothesis.create(FInputCount, 'Output ' + inttostr(i));
        for j := 0 to XSize - 1 do
-         FOtherRep[i].Data[j] := FData[j, i] >= ((double(JvValidateEdit3.value) + double(JvValidateEdit4.value)) / 2);
+         FOtherRep[i].Data[j] := FData[j, i] >= ((double(Edit3.value) + double(Edit4.value)) / 2);
        end;}
 
      UpdateVisualisation;
@@ -155,8 +154,8 @@ procedure TFmPedagogical.UpdateVisualisation;
           for j := 0 to SubCountY - 1 do
             begin
             XTmpData := FData[(j * SubCountX) + i, ComboBox1.ItemIndex];
-            XTmpData := XTmpData - double(JvValidateEdit3.Value);
-            XTmpData := XTmpData / (double(JvValidateEdit4.Value) - double(JvValidateEdit3.Value));
+            XTmpData := XTmpData - StrToFloat(Edit3.text);
+            XTmpData := XTmpData / (StrToFloat(Edit4.text) - StrToFloat(Edit3.text));
             XTmpData := (XTmpData * 2) - 1;
             if TrackBar1.Position = 0 then
                cl := 255 * sign(XTmpData)

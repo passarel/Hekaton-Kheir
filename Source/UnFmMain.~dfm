@@ -1,8 +1,8 @@
 object MainForm: TMainForm
-  Left = 316
-  Top = 111
-  Width = 939
-  Height = 609
+  Left = 8
+  Top = 127
+  Width = 1258
+  Height = 810
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Hekaton Kheir Project (Version 0.1)'
   Color = clBtnFace
@@ -21,15 +21,15 @@ object MainForm: TMainForm
   TextHeight = 13
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 529
-    Width = 923
+    Top = 730
+    Width = 1242
     Height = 22
     Panels = <>
   end
   object Panel4: TPanel
     Left = 0
     Top = 0
-    Width = 923
+    Width = 1242
     Height = 39
     Align = alTop
     TabOrder = 1
@@ -93,7 +93,7 @@ object MainForm: TMainForm
       end
     end
     object Panel1: TPanel
-      Left = 663
+      Left = 982
       Top = 1
       Width = 259
       Height = 37
@@ -195,8 +195,8 @@ object MainForm: TMainForm
   object Panel2: TScrollBox
     Left = 0
     Top = 39
-    Width = 923
-    Height = 490
+    Width = 1242
+    Height = 691
     Align = alClient
     Color = clWhite
     ParentColor = False
@@ -204,7 +204,7 @@ object MainForm: TMainForm
     OnClick = Panel2Click
     object Image1: TImage
       Left = 0
-      Top = 0
+      Top = -8
       Width = 1249
       Height = 2000
       PopupMenu = PopupMenu1

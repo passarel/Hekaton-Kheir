@@ -42,7 +42,8 @@ uses
   UnResults in 'UnResults.pas',
   UnWeightVis in 'UnWeightVis.pas' {FmWeightVis},
   UnPhil in 'UnPhil.pas' {FmOldPhil},
-  UnLineComp in 'UnLineComp.pas' {FmLineComp};
+  UnLineComp in 'UnLineComp.pas' {FmLineComp},
+  UnLabelInformation in 'UnLabelInformation.pas';
 
 {$R *.res}
 

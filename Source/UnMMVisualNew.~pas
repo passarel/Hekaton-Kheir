@@ -4,9 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, ComCtrls, SimpleGraph, UnMMStructure, StdCtrls,
-  JvExStdCtrls, JvEdit, JvValidateEdit, ExtCtrls, UnNetRep, Spin,
-  JvComCtrls, JvExComCtrls, TeeProcs, TeEngine, Chart, series, Gauges;
+  Dialogs, Menus, ComCtrls, SimpleGraph, UnMMStructure, StdCtrls, ExtCtrls, UnNetRep, Spin,
+  TeeProcs, TeEngine, Chart, series, Gauges;
 
 type
   TFmMMMain = class(TForm)
@@ -36,8 +35,8 @@ type
     ListBox2: TListBox;
     Button1: TButton;
     Button2: TButton;
-    JvValidateEdit1: TJvValidateEdit;
-    JvValidateEdit2: TJvValidateEdit;
+    JvValidateEdit1: TEdit;
+    JvValidateEdit2: TEdit;
     Panel4: TPanel;
     Label10: TLabel;
     Bevel3: TBevel;
@@ -48,7 +47,7 @@ type
     ListBox6: TListBox;
     ListBox5: TListBox;
     ListBox8: TListBox;
-    JvValidateEdit3: TJvValidateEdit;
+    JvValidateEdit3: TEdit;
     Button8: TButton;
     Panel5: TPanel;
     Button9: TButton;
@@ -76,8 +75,8 @@ type
     GroupBox1: TGroupBox;
     Label18: TLabel;
     Label19: TLabel;
-    JvValidateEdit4: TJvValidateEdit;
-    JvValidateEdit5: TJvValidateEdit;
+    JvValidateEdit4: TEdit;
+    JvValidateEdit5: TEdit;
     Button15: TButton;
     Label20: TLabel;
     Label21: TLabel;
@@ -86,8 +85,8 @@ type
     Button18: TButton;
     Button19: TButton;
     Button20: TButton;
-    JvValidateEdit6: TJvValidateEdit;
-    JvValidateEdit7: TJvValidateEdit;
+    JvValidateEdit6: TEdit;
+    JvValidateEdit7: TEdit;
     PopupMenu1: TPopupMenu;
     OpenDialog2: TOpenDialog;
     OpenDialog3: TOpenDialog;
@@ -105,7 +104,7 @@ type
     Label25: TLabel;
     Bevel7: TBevel;
     Button22: TButton;
-    JvTreeView1: TJvTreeView;
+    JvTreeView1: TTreeView;
     Button23: TButton;
     Button24: TButton;
     Button25: TButton;
@@ -139,6 +138,8 @@ type
     CheckBox5: TCheckBox;
     CheckBox1: TCheckBox;
     RadioGroup1: TRadioGroup;
+    N1: TMenuItem;
+    HideLabels1: TMenuItem;
     procedure New1Click(Sender: TObject);
     procedure SimpleGraphObjectSelect(Graph: TSimpleGraph; GraphObject: TGraphObject);
     procedure Button1Click(Sender: TObject);
@@ -200,6 +201,7 @@ type
     procedure Button28Click(Sender: TObject);
     procedure RadioGroup1Click(Sender: TObject);
     procedure Button29Click(Sender: TObject);
+    procedure HideLabels1Click(Sender: TObject);
 
   private
     FStructure : TRafaMooreMachine;
@@ -272,6 +274,7 @@ procedure TFmMMMain.New1Click(Sender: TObject);
      FStructure.Free;
   if FNetwork <> nil then FNetwork.Free;
   FStructure := TRafaMooreMachine.Create(SimpleGraph);
+  FStructure.UsesLabels := not HideLabels1.Checked;
   FStructure.OnExecutionInfo := ExecutionInfo;
   FmMMDialVar.Execute(FStructure);
   UpdateGraphStatesList;
@@ -391,8 +394,8 @@ procedure TFmMMMain.UpdateSelectedStates(arr : array of integer);
           XY := -2;
        end;
     end;
-  JvValidateEdit1.Value := XX;
-  JvValidateEdit2.Value := XY;
+  JvValidateEdit1.text := IntToStr(XX);
+  JvValidateEdit2.text := IntToStr(XY);
 
   FOnStateUpdate := false;
   end;
@@ -648,7 +651,7 @@ procedure TFmMMMain.JvValidateEdit3Change(Sender: TObject);
   begin
   for i := 0 to ListBox6.Count - 1 do
     if ListBox6.Selected[i] then
-       FStructure.GetTransition(i).Goal := JvValidateEdit1.Value;
+       FStructure.GetTransition(i).Goal := strToInt(JvValidateEdit1.text);
   end;
 
 procedure TFmMMMain.Button8Click(Sender: TObject);
@@ -1067,11 +1070,11 @@ procedure TFmMMMain.Button18Click(Sender: TObject);
        if (GroupBox2.Controls[FArDataGroups[i]] as TCheckBox).Checked then
           FStructure.GetDataList.Add(FFileStrl.Strings[i]);
      FStructure.SetEpochSize(FStructure.GetDataList.Count);
-     JvValidateEdit6.Value := FStructure.GetDataList.Count;
+     JvValidateEdit6.text := IntToStr(FStructure.GetDataList.Count);
      end
   else
-     FStructure.SetEpochSize(JvValidateEdit6.Value);
-  FStructure.SetLastEpoch(JvValidateEdit7.value);
+     FStructure.SetEpochSize(StrToInt(JvValidateEdit6.text));
+  FStructure.SetLastEpoch(StrToInt(JvValidateEdit7.text));
   Button17.Enabled := false;
   Button18.Enabled := false;
   Button20.Enabled := false;
@@ -1107,6 +1110,7 @@ procedure TFmMMMain.Button10Click(Sender: TObject);
      if FStructure <> nil then
         FStructure.Free;
      FStructure := TRafaMooreMachine.Create(SimpleGraph);
+     FStructure.UsesLabels := not HideLabels1.Checked;     
      FStructure.OnExecutionInfo := ExecutionInfo;
      if FNetwork = nil then
         FNetwork := TNetworkRep.Create(nil,nil);
@@ -1131,8 +1135,8 @@ procedure TFmMMMain.Button14Click(Sender: TObject);
 
 procedure TFmMMMain.Button15Click(Sender: TObject);
   begin
-  FNetwork.SetNEta(JvValidateEdit4.value);
-  FNetwork.SetNMomentum(JvValidateEdit5.Value);
+  FNetwork.SetNEta(StrToFloat(JvValidateEdit4.text));
+  FNetwork.SetNMomentum(StrToFloat(JvValidateEdit5.text));
   end;
 
 procedure TFmMMMain.Button16Click(Sender: TObject);
@@ -1215,8 +1219,8 @@ procedure TFmMMMain.ExecutionInfo(CurrentEpoch : integer; rmse : double);
 
 procedure TFmMMMain.JvValidateEdit6Change(Sender: TObject);
   begin
-  if JvValidateEdit6.Value > 1 then
-     SpinEdit1.MaxValue := JvValidateEdit6.Value;
+  if StrToInt(JvValidateEdit6.text) > 1 then
+     SpinEdit1.MaxValue := StrToInt(JvValidateEdit6.text);
   end;
 
 procedure TFmMMMain.Button21Click(Sender: TObject);
@@ -1235,7 +1239,7 @@ procedure TFmMMMain.JvTreeView1Click(Sender: TObject);
     XTmpNode : TTreeNode;
     i1, i2, i3 : integer;
   begin
-  XTmpNode := JvTreeView1.Items[JvTreeView1.ItemIndex];
+  XTmpNode := JvTreeView1.Selected;
   if XTmpNode.level >= 2 then
      begin
      i3 := XTmpNode.Index;
@@ -1428,6 +1432,7 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
                if FStructure = nil then
                   begin
                   FStructure := TRafaMooreMachine.Create(SimpleGraph);
+                  FStructure.UsesLabels := not HideLabels1.Checked;                  
                   FStructure.OnExecutionInfo := ExecutionInfo;
                   end;
                if FNetwork = nil then
@@ -1465,9 +1470,10 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
                if FStructure = nil then
                   begin
                   FStructure := TRafaMooreMachine.Create(SimpleGraph);
+                  FStructure.UsesLabels := not HideLabels1.Checked;                  
                   FStructure.OnExecutionInfo := ExecutionInfo;
                   end;
-               FStructure.LoadFromVariables(XTmpStrInput, XTmpStrState);
+               FStructure.LoadFromVariables(XTmpStrInput, XTmpStrState, TStringList.Create);
                UpdateGraphStatesList;
                UpdateFullStateList;
                UpdateGraphInputsList;
@@ -1490,9 +1496,10 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
                if FStructure = nil then
                   begin
                   FStructure := TRafaMooreMachine.Create(SimpleGraph);
+                  FStructure.UsesLabels := not HideLabels1.Checked;
                   FStructure.OnExecutionInfo := ExecutionInfo;
                   end;
-               FStructure.LoadFromVariables(XTmpStrInput, XTmpStrState);
+               FStructure.LoadFromVariables(XTmpStrInput, XTmpStrState, TStringList.Create);
                UpdateGraphStatesList;
                UpdateFullStateList;
                UpdateGraphInputsList;
@@ -1614,7 +1621,7 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
             if XTmpStr2.Count > 1 then
                begin
                FNetwork.SetNEta(StrToFloat(XTmpStr2.Strings[1]));
-               JvValidateEdit4.value := StrToFloat(XTmpStr2.Strings[1]);
+               JvValidateEdit4.text := XTmpStr2.Strings[1];
                end;
             i := i + 1;
             end
@@ -1623,7 +1630,7 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
             if XTmpStr2.Count > 1 then
                begin
                FNetwork.SetNMomentum(StrToFloat(XTmpStr2.Strings[1]));
-               JvValidateEdit5.Value := StrToFloat(XTmpStr2.Strings[1]);
+               JvValidateEdit5.text := XTmpStr2.Strings[1];
                end;
             i := i + 1;
             end
@@ -1846,12 +1853,22 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
             FStructure.AllowEmptyScalarStates := false;
             i := i + 1;
             end
+         else if lowerCase(XTmpStr2.Strings[0]) = 'randomize_inputs' then
+            begin
+            FStructure.RandomizeOrder := true;
+            i := i + 1;
+            end
+         else if lowerCase(XTmpStr2.Strings[0]) = 'do_not_randomize_inputs' then
+            begin
+            FStructure.RandomizeOrder := false;
+            i := i + 1;
+            end
          else if lowerCase(XTmpStr2.Strings[0]) = 'execute' then
             begin
             k := 1;
             if XTmpStr2.Count > 1 then
                begin
-               JvValidateEdit7.Value := strtoint(XTmpStr2.Strings[1]);
+               JvValidateEdit7.text := XTmpStr2.Strings[1];
                end;
             if XTmpStr2.Count > 2 then
                begin
@@ -1870,17 +1887,17 @@ function TFmMMMain.LoadFromFile(fileName : string) : integer;
                  if (GroupBox2.Controls[FArDataGroups[i]] as TCheckBox).Checked then
                     FStructure.GetDataList.Add(FFileStrl.Strings[j]);
                FStructure.SetEpochSize(FStructure.GetDataList.Count);
-               JvValidateEdit6.Value := FStructure.GetDataList.Count;
+               JvValidateEdit6.text := IntToStr(FStructure.GetDataList.Count);
                end
             else
                if XTmpStr2.Count > 4 then
                   begin
-                  JvValidateEdit6.Value := strtoint(XTmpStr2.Strings[4]);
+                  JvValidateEdit6.text := XTmpStr2.Strings[4];
                   if k > SpinEdit1.Value then
                      SpinEdit1.Value := k;
-                  FStructure.SetEpochSize(JvValidateEdit6.Value);
+                  FStructure.SetEpochSize(StrToInt(JvValidateEdit6.text));
                   end;
-            FStructure.SetLastEpoch(JvValidateEdit7.value);
+            FStructure.SetLastEpoch(StrToInt(JvValidateEdit7.text));
             Button17.Enabled := false;
             Button18.Enabled := false;
             Button20.Enabled := false;
@@ -2045,20 +2062,20 @@ procedure TFmMMMain.Save1Click(Sender: TObject);
 procedure TFmMMMain.JvValidateEdit1Exit(Sender: TObject);
   var i : integer;
   begin
-  if JvValidateEdit1.Value >= 0 then
+  if StrToInt(JvValidateEdit1.text) >= 0 then
      for i := 0 to ListBox2.Count - 1 do
        if ListBox2.Selected[i] then
-          FStructure.XPosition[i] := JvValidateEdit1.Value;
+          FStructure.XPosition[i] := StrToInt(JvValidateEdit1.text);
   end;
 
 
 procedure TFmMMMain.JvValidateEdit2Exit(Sender: TObject);
   var i : integer;
   begin
-  if JvValidateEdit2.Value >= 0 then
+  if StrToInt(JvValidateEdit2.text) >= 0 then
      for i := 0 to ListBox2.Count - 1 do
        if ListBox2.Selected[i] then
-          FStructure.YPosition[i] := JvValidateEdit2.Value;
+          FStructure.YPosition[i] := StrToInt(JvValidateEdit2.text);
   end;
 
 procedure TFmMMMain.CheckBox5Click(Sender: TObject);
@@ -2165,6 +2182,12 @@ procedure TFmMMMain.Button29Click(Sender: TObject);
      Panel9.Height := 32;
      Button29.Caption := '+';
      end;
+  end;
+
+procedure TFmMMMain.HideLabels1Click(Sender: TObject);
+  begin
+  SimpleGraph.Enabled := not HideLabels1.Checked;
+  if FStructure <> nil then FStructure.UsesLabels := not HideLabels1.Checked;
   end;
 
 end.

@@ -1,0 +1,813 @@
+unit UnRafaAux2007;
+
+interface
+
+//------------------------------------------------------------------------------
+
+type TRafaComparableObject = class
+  private
+  public
+    function Compare(other : TRafaComparableObject) : integer; virtual; abstract;
+    function FloatDifference (other : TRafaComparableObject) : double; virtual; abstract;
+  end;
+
+//------------------------------------------------------------------------------
+
+type TRafaInteger = class(TRafaComparableObject)
+  private
+    FData : integer;
+    function GetData: integer;
+    procedure SetData(const Value: integer);
+  public
+    constructor Create(value : integer = 0);
+    property  Data : integer read GetData write SetData;
+    function  Factorial : Longint; overload;
+    class function Factorial(value : integer) : LongInt; overload;
+    function Compare(other : TRafaComparableObject) : integer; override;
+    function FloatDifference (other : TRafaComparableObject) : double; override;
+  end;
+
+//------------------------------------------------------------------------------
+
+type TRafaDouble = class(TRafaComparableObject)
+  private
+    FData : double;
+    function GetData: double;
+    procedure SetData(const Value: double);
+  public
+    constructor Create(value : double = 0);
+    property  Data : double read GetData write SetData;
+    function Compare(other : TRafaComparableObject) : integer; override;
+    function FloatDifference (other : TRafaComparableObject) : double; override;
+  end;
+
+//------------------------------------------------------------------------------
+
+type TRafaSortableArray = class
+  private
+    FOrder : integer;
+    FLength : integer;
+    FData : array of TRafaComparableObject;
+    FDescendentSorting : boolean;
+
+    function GetData(index : integer) : TRafaComparableObject;
+    function GetDescendentSorting : boolean;
+    function GetDataLength : integer;
+
+    procedure SetData (index : integer; value : TRafaComparableObject);
+    procedure SetDataLength (value : integer);
+    procedure SetDescendentSorting(value : boolean);
+    function  Compare(item1, item2 : TRafaComparableObject) : integer;
+    procedure Change(index1, index2 : integer);
+    procedure CondChange(index1, index2 : integer);
+    procedure TmpQuickSort(pos1, pos2 : integer);
+    procedure QuickJoin(pos1, pos2, pos3 : integer);
+    procedure CustomSort;
+    procedure SetOrder(value : integer);
+    function GetOrder : integer;
+
+  public
+    constructor Create(Len : integer = 0);
+    destructor  Destroy; override;
+
+    property Data[index : integer] : TRafaComparableObject read GetData write SetData;
+    property Length : integer read GetDataLength write SetDataLength;
+    procedure QuickSort;
+
+    procedure Clear(freeItems : boolean = true);
+
+    procedure Add(value : TRafaComparableObject; Sort : boolean; resize : boolean = true);
+    procedure AddInPosition(index : integer; value : TRafaComparableObject; resize : boolean = true);
+    procedure Delete(index : integer; resize : boolean = true);
+    procedure Trim;
+    property CustomOrder : integer read GetOrder write SetOrder;
+    function IsSorted : boolean;
+    function EuclideanDistance(other : TRafaSortableArray) : double;
+    function PonderedEuclideanDistance(other : TRafaSortableArray; weights : array of double) : double;
+    property UseDescendentSorting : boolean read GetDescendentSorting write SetDescendentSorting;
+
+  end;
+
+//------------------------------------------------------------------------------
+
+//Class that keeps an array of double values with associated
+type TRafaDoubleArray = class
+  private
+    FData : array of double;
+    FLength : integer;
+    FAux : double;
+    procedure SetData(index : integer; value : double);
+    function  GetData(index : integer) : double;
+    function  GetLength : integer;
+    procedure SetAux(value : double);
+    function GetAux : double;
+  public
+    constructor Create(length : integer);
+    property Data[index : integer] : double read GetData write SetData;
+    property Aux : double read GetAux write SetAux;
+    property DataLength : integer read GetLength;
+    procedure InsertValue(values : array of double; weight : double);
+    function  EuclideanDistance(values : TRafaDoubleArray) : double;
+  end;
+
+//------------------------------------------------------------------------------
+
+//Class for generating or initialising random arrays
+type TRafaRandomiser = class
+  private
+  public
+    //Usual constructor, calls Delphi's randomize procedure
+    constructor Create;
+    //Usual destructor
+    destructor  Destroy; override;
+    //Fills PCount positions of the ar array, starting from PBegin, with random integer values
+    //****Put more Comments
+    procedure RandomIntegerArray(var ar : array of integer; Pbegin, PCount: integer);
+    //****Fills PCount positions of the ar array, starting from PBegin, with random boolean values
+    procedure RandomBoolArray(var ar : array of boolean; Pbegin, PCount, Ntrue : integer);
+  end;
+
+//------------------------------------------------------------------------------
+
+implementation
+
+uses Math, SysUtils;
+
+//------------------------------------------------------------------------------
+
+{ TRafaRandomiser }
+
+//------------------------------------------------------------------------------
+
+constructor TRafaRandomiser.Create;
+  begin
+  inherited Create;
+  Randomize;
+  end;
+
+//------------------------------------------------------------------------------
+
+destructor TRafaRandomiser.Destroy;
+  begin
+  inherited Destroy;
+  end;
+
+//------------------------------------------------------------------------------
+
+procedure TRafaRandomiser.RandomBoolArray(var ar: array of boolean; Pbegin,
+  PCount, Ntrue: integer);
+  var
+    i : integer;
+    chain : array of integer;
+  begin
+  SetLength(Chain, PCount);
+  RandomIntegerArray(chain, 0, PCount);
+  for i := 0 to PCount - 1 do
+    ar[Pbegin + i] := chain[i] < NTrue;
+  end;
+
+//------------------------------------------------------------------------------
+
+
+procedure TRafaRandomiser.RandomIntegerArray(var ar: array of integer;
+  Pbegin, PCount: integer);
+  var
+    i, j, k, tmp : integer;
+    chain : array of integer;
+  begin
+  SetLength(chain, PCount);
+  for i := 0 to PCount - 1 do
+    chain[i] := i;
+  j := 0;
+  for i := Pcount - 1 downto 0 do
+    begin
+    tmp := random(i + 1);
+    ar[PBegin + j] := PBegin + chain[tmp];
+    for k := tmp to i - 1 do
+      chain[k] := chain[k + 1];
+    j := j + 1;
+    end
+  end;
+
+//------------------------------------------------------------------------------
+
+{ TRafaInteger }
+
+function TRafaInteger.Compare(other: TRafaComparableObject): integer;
+  begin
+  if (other is TRafaInteger) then
+     result := (other as TRafaInteger).Data - Data
+  else
+     //Raise exception
+     result := 0;
+  end;
+
+constructor TRafaInteger.Create(value: integer);
+  begin
+  inherited Create;
+  FData := value;
+  end;
+
+function TRafaInteger.FloatDifference(other: TRafaComparableObject) : double;
+  begin
+  result := Compare(other);
+  end;
+
+function  TRafaInteger.Factorial : Longint;
+  var i, v : integer;
+  begin
+  if (Fdata < 0) or (FData > 50) then
+     result := -1
+  else if (FData = 0) then
+     result := 0
+  else
+    begin
+    v := 1;
+    for i := 1 to FData do
+      v := v * i;
+    result := v;
+    end;
+  end;
+
+class function TRafaInteger.Factorial(value : integer) : LongInt;
+  var i, v : integer;
+  begin
+  if (value < 0) or (value > 50) then
+     result := -1
+  else if (value = 0) then
+     result := 0
+  else
+    begin
+    v := 1;
+    for i := 1 to value do
+      v := v * i;
+    result := v;
+    end;
+  end;
+
+function TRafaInteger.GetData: integer;
+  begin
+  result := FData;
+  end;
+
+procedure TRafaInteger.SetData(const Value: integer);
+  begin
+  FData := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+{ TRafaDouble }
+
+//-------------------------------------------------------------------------------------------------
+
+constructor TRafaDouble.Create(value : double = 0);
+  begin
+  inherited Create;
+  FData := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaDouble.Compare(other : TRafaComparableObject) : integer;
+  begin
+  result := round(FloatDifference(other));
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaDouble.FloatDifference (other : TRafaComparableObject) : double;
+  begin
+  if (other is TRafaDouble) then
+     result := (other as TRafaDouble).Data - Data
+  else
+     //Raise exception
+     result := 0;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaDouble.GetData: double;
+  begin
+  result := FData;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaDouble.SetData(const Value: double);
+  begin
+  FData := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+{ TRafaSortableArray }
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.AddInPosition(index : integer; value : TRafaComparableObject; resize : boolean = true);
+  var i : integer;
+  begin
+  if (index >= 0) then
+     begin
+     if resize then
+        begin
+        if index > Length then
+           FLength := index + 1
+        else
+           FLength := FLength + 1;
+        SetLength(FData, FLength);
+        end;
+     if index < FLength then
+        begin
+        for i := FLength - 2 downto index do
+           FData[i + 1] := FData[i];
+        FData[index] := value;
+        end;
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.Add(value : TRafaComparableObject; Sort : boolean; resize : boolean = true);
+  var
+    i : integer;
+    XFound : boolean;
+  begin
+  i := 0;
+  if sort then
+     begin
+     XFound := false;
+     while not XFound and (i < FLength) do
+       begin
+       XFound := Compare(value, FData[i]) <= 0;
+       i := i + 1;
+       end;
+     if XFound then
+        AddInPosition(i - 1, value, resize)
+     else if resize then
+        AddInPosition(i, value, resize)
+     end
+  else
+     AddInPosition(FLength, value, resize);
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.Change(index1, index2 : integer);
+  var XTmp : TRafaComparableObject;
+  begin
+  if (index1 >= 0) and (index2 >= 0) and (index1 < FLength) and (index2 < FLength) then
+     begin
+     XTmp := FData[index2];
+     FData[index2] := FData[index1];
+     FData[index1] := XTmp;
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.Clear(freeItems : boolean = true);
+  var i : integer;
+  begin
+  if freeItems then
+     for i := 0 to FLength - 1 do FData[i].Free;
+  FLength := 0;
+  SetLength(FData, 0);
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.Compare(item1, item2 : TRafaComparableObject) : integer;
+  begin
+  if (item2 = nil) and (item1 = nil) then
+     result := 0
+  else if item2 = nil then
+     result := 1
+  else if item1 = nil then
+     result := -1
+  else if FDescendentSorting then
+     result := item2.Compare(item1)
+  else
+     result := item1.Compare(item2);
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.CondChange(index1, index2 : integer);
+  begin
+  if (index1 >= 0) and (index2 >= 0) and (index1 < FLength) and (index2 < FLength) then
+     if Compare(FData[index1], FData[index2]) < 0 then Change(index1, index2);
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+constructor TRafaSortableArray.Create(Len : integer = 0);
+  begin
+  inherited create;
+  if len >= 0 then FLength := len else FLength := 0;
+  if FLength > 0 then SetLength(FData, FLength);
+  FOrder := 0;
+  FDescendentSorting := false;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.CustomSort;
+  var
+    i, j, tmp, pos: integer;
+    fact : longInt;
+    tmpArray : array of TRafaComparableObject;
+  begin
+  tmp := FOrder;
+  QuickSort;
+  SetLength(tmpArray, FLength);
+  for i := 0 to FLength - 1 do
+    begin
+    fact := TRafaInteger.Factorial((FLength - i) - 1);
+    pos := tmp div fact;
+    tmp := tmp mod fact;
+    j := 0;
+    while (pos > 0) and (j < FLength) do
+      begin
+      if FData[j] <> nil then
+         pos := pos - 1;
+      j := j + 1;
+      end;
+    if (j < FLength) then
+       begin
+       tmpArray[i] := FData[j];
+       FData[j] := nil;
+       end;
+    end;
+  for i := 0 to FLength - 1 do
+    FData[i] := FData[i];
+
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.Delete(index : integer; resize : boolean = true);
+  var i : integer;
+  begin
+  if (index >= 0) and (index < FLength) then
+     begin
+     FData[index].Free;
+     for i := index to FLength - 2 do
+       FData[i] := FData[i + 1];
+     if resize then
+        begin
+        FLength := FLength - 1;
+        SetLength(FData, FLength);
+        end
+     else
+        FData[FLength - 1] := nil;
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+destructor TRafaSortableArray.Destroy;
+  begin
+  SetLength(FData, 0);
+  inherited Destroy;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.EuclideanDistance(other : TRafaSortableArray) : double;
+  var
+    tmp : double;
+    i : integer;
+  begin
+  if FLength = other.Length then
+    begin
+    tmp := 0;
+    for i := 0 to FLength - 1 do
+       tmp := tmp + sqr(FData[i].FloatDifference(other.Data[i]));
+    result := sqrt(tmp);
+    end
+  else
+    result := 0;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.PonderedEuclideanDistance(other : TRafaSortableArray; weights : array of double) : double;
+  var
+    tmp : double;
+    i : integer;
+  begin
+  if (FLength = other.Length) then
+    begin
+    tmp := 0;
+    for i := 0 to FLength - 1 do
+       tmp := tmp + sqr(FData[i].FloatDifference(other.Data[i]) * weights[i]);
+    result := sqrt(tmp);
+    end
+  else
+    result := 0;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.IsSorted : boolean;
+  var
+    b : boolean;
+    i : integer;
+  begin
+  b := true;
+  i := 0;
+  while b and (i < FLength - 1) do
+    begin
+    b := Compare(FData[i], FData[i + 1]) > 0;
+    i := i + 1;
+    end;
+  result := b;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.GetData(index : integer) : TRafaComparableObject;
+  begin
+  if (index >= 0) and (index < FLength) then
+     result := FData[index]
+  else
+     result := nil;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.GetDataLength : integer;
+  begin
+  result := FLength;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.GetDescendentSorting : boolean;
+  begin
+  result := FDescendentSorting;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaSortableArray.GetOrder : integer;
+  begin
+  result := FOrder;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.QuickJoin(pos1, pos2, pos3 : integer);
+  var
+    XAr1, XAr2 : array of TRafaComparableObject;
+    XCont1, XCont2, i : integer;
+  begin
+  SetLength(Xar1, pos2 - pos1);
+  SetLength(Xar2, pos3 - pos2);
+  for XCont1 := 0 to (pos2 - pos1) - 1  do
+    XAr1[XCont1] := FData[pos1 + XCont1];
+  for XCont2 := 0 to (pos3 - pos2) - 1 do
+    XAr2[XCont2] := FData[pos2 + XCont2];
+  XCont1 := 0;
+  XCont2 := 0;
+  for i := 0 to (pos2 - pos1) - 1 do
+    begin
+    if XCont1 >= (pos2 - pos1) then
+       begin
+       FData[pos1 + i] := XAr2[XCont2];
+       XCont2 := XCont2 + 1;
+       end
+    else if XCont2 >= (pos3 - pos2) then
+       begin
+       FData[pos1 + i] := XAr1[XCont1];
+       XCont1 := XCont1 + 1;
+       end
+    else if (Compare(XAr1[XCont1], XAr2[XCont2]) >= 0)  then
+       begin
+       FData[pos1 + i] := XAr1[XCont1];
+       XCont1 := XCont1 + 1;
+       end
+    else
+       begin
+       FData[pos1 + i] := XAr2[XCont2];
+       XCont2 := XCont2 + 1;
+       end;
+    end;
+  for i := 0 to (pos3 - pos2) - 1 do
+    begin
+    if XCont1 >= (pos2 - pos1) then
+       begin
+       FData[pos2 + i] := XAr2[XCont2];
+       XCont2 := XCont2 + 1;
+       end
+    else if XCont2 >= (pos3 - pos2) then
+       begin
+       FData[pos2 + i] := XAr1[XCont1];
+       XCont1 := XCont1 + 1;
+       end
+    else if (Compare(XAr1[XCont1], XAr2[XCont2]) >= 0)  then
+       begin
+       FData[pos2 + i] := XAr1[XCont1];
+       XCont1 := XCont1 + 1;
+       end
+    else
+       begin
+       FData[pos2 + i] := XAr2[XCont2];
+       XCont2 := XCont2 + 1;
+       end;
+    end;
+
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.QuickSort;
+  begin
+  TmpQuickSort(0, FLength);
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.SetData (index : integer; value : TRafaComparableObject);
+  begin
+  if (index >= 0) and (index < FLength) then
+     FData[index] := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.SetDescendentSorting(value : boolean);
+  begin
+  FDescendentSorting := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.SetDataLength (value : integer);
+  var i: integer;
+  begin
+  if value > 0 then
+     begin
+     if value < FLength then
+        begin
+        for i := value to FLength - 1 do
+          if FData[i] <> nil then FData[i].Free;
+        FLength := value;
+        SetLength(FData, FLength);
+        end
+     else
+        begin
+        SetLength(FData, value);
+        for i := FLength to value - 1 do
+          FData[i] := nil;
+        FLength := Value;
+        end;
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.SetOrder(value : integer);
+  begin
+  if Value <> FOrder then
+     begin
+     if (FLength > 50) then
+        raise Exception.Create('Library does not allow custom sorting in arrays with more than 50 items')
+     else
+        if (value >= 0) and (value < TRafaInteger.Factorial(FLength)) then
+           begin
+           FOrder := value;
+           CustomSort;
+           end;
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.TmpQuickSort(pos1, pos2 : integer);
+  begin
+  if (pos2 - pos1) = 2 then
+     CondChange(pos1, pos2 - 1)
+  else if (pos2 - pos1) > 2 then
+     begin
+     TmpQuickSort(pos1, (pos2 + pos1) div 2);
+     TmpQuickSort((pos2 + pos1) div 2, pos2);
+     QuickJoin(pos1, (pos2 + pos1) div 2, pos2);
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaSortableArray.Trim;
+  var
+    i : integer;
+    b : boolean;
+  begin
+  i := FLength;
+  b := false;
+  while not b and (i > 0) do
+    begin
+    i := i - 1;
+    b := FData[i] = nil;
+    end;
+  FLength := i + 1;
+  SetLength(FData, FLength);
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+{ TRafaDoubleArray }
+
+//-------------------------------------------------------------------------------------------------
+
+constructor TRafaDoubleArray.Create(length : integer);
+  var i : integer;
+  begin
+  if length > 0 then
+     begin
+     inherited Create;
+     SetLength(FData, Length);
+     FLength := length;
+     for i := 0 to Length - 1 do
+       FData[i] := 0;
+     Aux := 0;
+     end;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function  TRafaDoubleArray.EuclideanDistance(values : TRafaDoubleArray) : double;
+  var
+    i : integer;
+    Xtotal : double;
+  begin
+  if (values.DataLength >= FLength) then
+     begin
+     Xtotal := 0;
+     for i := 0 to FLength - 1 do
+       XTotal := XTotal + sqr(GetData(i) - values.Data[i]);
+     result := sqrt(XTotal);
+     end
+  else
+     result := 0;
+
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function TRafaDoubleArray.GetAux : double;
+  begin
+  result := FAux;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function  TRafaDoubleArray.GetData(index : integer) : double;
+  begin
+  if (index >=0) and (index < length(FData)) then
+     result := FData[index]
+  else
+     result := 0;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+function  TRafaDoubleArray.GetLength : integer;
+  begin
+  result := FLength;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaDoubleArray.InsertValue(values : array of double; weight : double);
+  var i : integer;
+  begin
+  if length(values) >= length(FData) then
+     begin
+     for i := 0 to Length(FData) - 1 do
+       FData[i] := FData[i] + values [i];
+     Faux := Faux + weight;
+     end
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaDoubleArray.SetData(index : integer; value : double);
+  begin
+  if (index >= 0) and (index < length(FData)) then
+     FData[index] := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+procedure TRafaDoubleArray.SetAux(value : double);
+  begin
+  FAux := value;
+  end;
+
+//-------------------------------------------------------------------------------------------------
+
+end.
+
